@@ -1,9 +1,9 @@
 <?
 //======================================
-$dbhost="localhost";	//MySql服务器
-$dbuser="fangke";	//MySql用户名
-$dbpass="fangke";	//MySql密码
-$dbdata="fangke_diancan";	//MySql数据库
+$dbhost="121.42.159.217";	//MySql服务器
+$dbuser="root";	//MySql用户名
+$dbpass="diandong";	//MySql密码
+$dbdata="diancan";	//MySql数据库
 $OpID = "100000";	//商户ID
 $OpPK = "dMXiVEP9Jr4EViQs";	//商户密钥
 //======================================

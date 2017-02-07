@@ -3,7 +3,7 @@
 /* 全局通用
 ----------------------------------------------- */
 body {
- 
+
  font-family: Microsoft Yahei, \5FAE\8F6F\96C5\9ED1, \5B8B\4F53, Arial, Verdana, sans-serif;
  font-size: 12px;
  color: #333;
@@ -618,6 +618,7 @@ select {
  font-size: 13px;
  font-weight: bold;
  border-radius: 4px;
+ margin:0 10px;
 }
 .mainBox h3 .add {
  background: #28B779 url(../images/action_btn.gif) no-repeat 20px 50%;
@@ -1477,18 +1478,66 @@ ul.second-nav li{
          -o-transition: transform .25s;
             transition: transform .25s;
 }
-.arrow.active:after{       
+.arrow.active:after{
     top: 17px;
     -webkit-transform: rotate(180deg);
        -moz-transform: rotate(180deg);
         -ms-transform: rotate(180deg);
          -o-transform: rotate(180deg);
-            transform: rotate(180deg); 
+            transform: rotate(180deg);
 }
 .arrow.active:before{
     -webkit-transform: rotate(180deg);
        -moz-transform: rotate(180deg);
         -ms-transform: rotate(180deg);
          -o-transform: rotate(180deg);
-            transform: rotate(180deg);        
+            transform: rotate(180deg);
 }
+/*菜单设置开始*/
+/*菜单分类*/
+.ds1la1 {
+    text-align: left;
+    padding: 4px 10px;
+    background-color: #DEF;
+    line-height: 40px;
+    margin: 2px;
+    cursor: pointer;
+}
+.ds1la2 {
+    text-align: left;
+    padding: 4px 10px;
+    background-color: #09F;
+    color: #FFF;
+    line-height: 40px;
+    margin: 2px;
+    cursor: pointer;
+}
+.ds1la3 {
+    border: 1px solid #000;
+    width: 14px;
+    height: 14px;
+    font-size: 11px;
+    font-family: Tahoma;
+    line-height: 14px;
+    text-align: center;
+    color: #000;
+    display: inline-block;
+}
+/*菜品详细*/
+.ds1lb1 {
+    float: left;
+    width: 240px;
+    line-height: 35px;
+    height: 70px;
+    background-color: #F3F9FF;
+    border: 1px solid #9CF;
+    margin: 5px;
+    cursor: pointer;
+}
+.ds1lb2 {
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+}
+/*菜单设置结束*/

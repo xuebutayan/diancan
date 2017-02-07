@@ -27,7 +27,7 @@ $(function () {
     function h() {
         e = LS.get("eid"), f = LS.get("sid"), g = LS.get("cid")
     }
-    
+
     var a, b, c, d, e, f, g, i;
     /*h();
     //v2.0
@@ -40,27 +40,7 @@ $(function () {
     } else {
         a = LS.get("uImg");
     }
-    b = "", a && (b = 'style="background-image:url(' + a + ')"'), c = $("#main-bg"), d = '<div class="asstouch" id="asstouch" isshow="hide" ;><div class="asslist left"><span id="go-index" class="ass-home ass-link"></span><span id="go-cart" class="ass-cart ass-link"></span><span id="go-account" class="ass-center ass-link"></span></div><div class="assbtn"' + b + "></div></div>", c.append(d), i = !1, $("body").bind("touchend", "#go-index", function () {
-        //return i === !0 ? !1 : (i = !0, h(), window.location.href = "/shoplist/go_shoplist.do?entityId=" + e + "&shopId=" + f , void 0)
-    	h(); window.location.href = "/shoplist/go_shoplist.do?entityId=" + e + "&shopId=" + f + "&time="+ new Date().getTime();
-    }), $("body").on("tap", "#go-account", function () {
-        return i === !0 ? !1 : (i = !0, h(), window.location.href = "/accountCenter/my.do?entityId=" + e + "&shopId=" + f , void 0)
-    }), $("body").on("tap", "#go-cart", function () {
-        var a, b, c;
-        return i === !0 ? !1 : (i = !0, h(), a = {}, /*i = !0 b = LS.get("aryId"), b = b ? b.split("||") : [], */a.entityId = e, a.shopId = f, a.customerId = g, /*a.goodsIds = b,*/ a = JSON.stringify(a), c = "<form id='myform' style='display: none' action='/shopcart/go_shopcart.do' method='get' enctype='application/x-www-form-urlencoded'><textarea name='datas'>" + a + "</textarea></form>", $("body").append(c), $("#myform").submit(), void 0)
-    }), $("body").on("tap", "#asstouch",  function (event) {
-        var a = $(this).attr("isshow");
-        "hide" === a ? ($(".assbtn").addClass("active"), $(".asslist").show().animate({opacity: 1}, 300), $(this).removeAttr("isshow"),$("body").append('<div id="avatar" style="position:fixed;top:0;left:0;z-index:0;width:100%;height:100%"></div>')) : ($(".assbtn").removeClass("active"), $(".asslist").animate({opacity: 0}, 300, function () {
-            $(".asslist").hide(), $("#asstouch").attr("isshow", "hide"),$("#avatar").remove();
-            
-        }))
-        
-    }),$("body").on("tap", "#avatar", function () {
-        var a = $("#asstouch").attr("isshow");
-        "hide" === a ? '' : ($(".assbtn").removeClass("active"), $(".asslist").animate({opacity: 0}, 300, function () {
-            $(".asslist").hide(), $("#asstouch").attr("isshow", "hide"),$("#avatar").remove();
-        }))
-    }), function () {
+    b = "", a && (b = 'style="background-image:url(' + a + ')"'), c = $("#main-bg"), d = '<div class="asstouch" id="asstouch" isshow="hide" ;><div class="asslist left"><span id="go-index" class="ass-home ass-link"></span><span id="go-cart" class="ass-cart ass-link"></span><span id="go-account" class="ass-center ass-link"></span></div><div class="assbtn"' + b + "></div></div>", c.append(d), i = !1, function () {
         function l(a, b) {
             var c = a, d = b;
             !function () {
@@ -213,15 +193,15 @@ function fixed2(pnumber) {
             }
         });
 	}
-	
-	
+
+
 	//验证手机号 验证13*、145、147、15*（不包括153、154）、18*、170号段
 	function isMobile(a)
 	{
 		var reg =/1((3\d)|(4[57])|(5[01256789])|(8\d)|(70))\d{8}/;
 		return reg.test(a);
 	}
-	//数字正则验证 
+	//数字正则验证
 	function isNum(a)
 	{
 		var reg =/^[0-9]\d*$/;
