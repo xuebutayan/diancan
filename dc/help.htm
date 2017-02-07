@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>千味餐厅点餐支付管理系统 - 帮助文档</title>
+<style type="text/css">
+a:link,a:visited {color:#09F;text-decoration:none;}
+a:hover,a:active {color:#F00;text-decoration:none;}
+div {font-size:14px;text-align:left;}
+.dl0 {border:1px solid #CCC;text-align:center;line-height:40px;color:#FFF;background-color:#333;}
+.dl1 {border:1px solid #CCC;text-align:center;line-height:40px;color:#09F;cursor:pointer;}
+.tt {font-size:24px;color:#09F;border-bottom:1px solid #09F;line-height:48px;}
+</style>
+<script type="text/javascript">
+function $(o){return document.getElementById(o);}
+function xml(){var x;try{x=new ActiveXObject('Msxml2.XMLHTTP');}catch(e){try{x=new ActiveXObject('Microsoft.XMLHTTP');}catch(f){x=false;}}if(!x&&typeof XMLHttpRequest!='undefined'){x=new XMLHttpRequest();}xvr=true;return x;}
+function atwh(){var pw=parseInt(document.documentElement.clientWidth);dt.style.width=pw+'px';db.style.width=pw+'px';setTimeout('atwh()',1000);}
+function menu(n){for(var i=0;i<5;i++){$('dl'+i).className='dl1';$('dr'+i).style.display='none';}$('dl'+n).className='dl0';$('dr'+n).style.display='block';}
+function yjjy(){if(j3.value.replace(/\s/gi,'')=='')return;var x=xml();x.open('Post','http://www.1000vw.com/Qw/post.php?a='+j1.value+'&b='+j2.value,true);x.setRequestHeader('Content-Length',j3.value.lenght+2);x.setRequestHeader('Content-Type','application/x-www-form-urlencoded;');x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){if(x.responseText=='OK'){alert('您的意见建议已提交，感谢您的支持！');j1.value='';j2.value='';j3.value='';}else{alert('Access Error!');}}};x.send('c='+j3.value);}
+</script>
+</head>
+<body style="margin:0px;padding:0px;font-size:14px;font-family:微软雅黑;text-align:center;">
+<div id="dt" style="width:1600px;height:60px;background-color:#333;">
+  <div style="width:1000px;height:60px;margin:auto;color:#6CF;font-size:32px;line-height:60px;">千味餐厅点餐支付管理系统 - 帮助文档</div>
+</div>
+<div style="width:1000px;margin:auto;margin-top:10px;">
+  <div id="dl" style="float:left;width:100px;">
+    <div id="dl0" class="dl0" onclick="menu(0);">系统安装</div>
+    <div id="dl1" class="dl1" onclick="menu(1);">菜单配置</div>
+    <div id="dl2" class="dl1" onclick="menu(2);">使用流程</div>
+    <div id="dl3" class="dl1" onclick="menu(3);">账单结算</div>
+    <div id="dl4" class="dl1" onclick="menu(4);">意见建议</div>
+  </div>
+  <div id="dr" style="float:left;width:858px;padding:20px;line-height:30px;border:1px solid #CCC;">
+    <div id="dr0" style="display:block;">
+    <div class="tt">一、系统安装</div>
+    <strong>1、商户注册</strong><br />
+    请点这里<a href="http://www.1000vw.com/Qw/regi.php" target="_blank">注册成为本站商户</a>，注册成功后，检查手机短信，获得商户ID和登陆密码以及通讯密钥。注册成功后<a href="http://www.1000vw.com/Qw/user.php" target="_blank">登录商户管理</a>完善商户信息，并提交营业执照审核。<br />
+    <strong>2、服务器配置</strong><br />
+    自行安装配置服务器，安装PHP+MySql运行环境。推荐安装<a href="http://www.phpstudy.net/phpstudy/phpfind.zip" target="_blank">PhpFind</a>。<br />
+    <span style="color:#F00;">重要：要将服务器IP地址更改为固定IP地址，如：192.168.0.222。</span><br />
+    提示：如果使用WinXP系统，请应用<a href="http://www.pc6.com/softview/SoftView_65442.html" target="_blank">XP连接数破解补丁</a>，否则有最多50人在线上限。<br />
+    <strong>3、系统安装</strong><br />
+    将Qv文件夹放置于网站根目录下，打开<a href="http://localhost/Qv/install.php" target="_blank">http://localhost/Qv/install.php</a>，按提示输入数据库连接参数，输入商户ID和通讯密钥，完成安装。安装可选导入示范数据，以便您快速体验系统功能<br />
+    <img src="h/01.jpg" /><br />
+    <strong>4、登录系统</strong><br />
+    打开<a href="http://localhost/Qv/index.php" target="_blank">http://localhost/Qv/index.php</a>，输入默认用户名admin和密码123456登录。<br />
+    <img src="h/02.jpg" />
+    </div>
+    <div id="dr1" style="display:none;">
+    <div class="tt">二、菜单配置</div>
+    <strong>1、基本设置</strong><br />
+    点击右上角设置图标，然后点击左侧基本设置，设置基本参数，保存设置。<br />
+    <span style="color:#F00;">重要：务必将主机地址设置为服务器IP地址+目录的形式！</span><br />
+    <img src="h/03.jpg" /><br />
+    <strong>2、菜类设置</strong><br />
+    点击添加分类，增加一个新的菜品类别。或点击类别名称边上的 <span style="display:inline-block;width:20px;line-height:20px;text-align:center;border:1px solid #666;">E</span> 标记编辑该类别。菜类名称右边有H标记表示该分类为隐藏，仅服务员界面可见，顾客自助点餐界面不可见。<br />
+    <img src="h/04.jpg" /><br />
+    <strong>3、菜品设置</strong><br />
+    点击添加菜品，增加一个新的菜品。或点击菜名编辑该菜品属性。菜品名称边上有H标记表示为隐藏菜品，一般适用于该菜已售光后隐藏该菜品避免顾客下单。<br />
+    <img src="h/05.jpg" /><br />
+    <strong>4、餐桌设置</strong><br />
+    按餐厅实际的餐桌数量设置餐桌。并在餐桌二维码上点右键下载该二维码打印后粘贴在相应餐桌上。<br />
+    <img src="h/06.jpg" /><br />
+    <strong>5、员工设置</strong>：按餐厅实际员工情况分配不同的用户名和密码以及相应的权限。<br />
+    <strong>6、折扣设置</strong>：按照页面说明设置各种打折优惠费率。<br />
+    <strong>7、打印设置</strong>：下载安装打印控件，然后测试小票打印机。<br />
+    <strong>8、生成二维码</strong><br />
+    设置完成，返回大厅，点击上面当前员工边上的二维码链接，生成二维码图片，将二维码图片保存至本地，打印后粘贴在各个餐桌上以便顾客扫描二维码自助点餐。
+    </div>
+    <div id="dr2" style="display:none;">
+    <div class="tt">三、使用流程</div>
+    服务员、收银员使用手机扫描店员二维码，厨师、送餐员使用手机扫描厨房二维码，进入各自管理界面。建议使用QQ浏览器，并将网址存入书签方便以后直接打开，不要用微信或支付宝的扫一扫进入。<br />
+    <strong>1、顾客入座</strong><br />
+    顾客到来后，服务员引导顾客入座，然后服务员在管理界面上点击相应餐桌，然后点击入座。<br />
+    <strong>2、顾客点餐</strong><br />
+    顾客使用自己的手机连接店内Wifi，扫描桌上的二维码，进入顾客自助点餐。选择餐品，确定菜品和数量，然后点击立即下单。<br />
+    <img src="h/11.jpg" />　　<img src="h/12.jpg" />　　<img src="h/13.jpg" /><br />
+    服务员亦可将自己的手机交由顾客点餐。注意：顾客使用服务员手机点餐请点顾客点餐按钮，不要点点餐按钮，不同点是顾客点餐返回管理界面时候需要输入密码，避免顾客误操作。点餐完成后，点左上角餐厅图标返回管理界面。<br />
+    <strong>3、提交厨房</strong><br />
+    服务员端将同步收到下单提示，该餐桌变为黄色说明有事情需要处理，同时有声音提示。服务员可与顾客确认点单后，然后点交厨提交厨房流程。<br />
+    <img src="h/14.jpg" />　　<img src="h/15.jpg" />　　<img src="h/16.jpg" /><br />
+    顾客下单后仍可继续点餐，继续下单，服务员将收到顾客补单提示，服务员确认补单后提交厨房。<br />
+    <strong>4、厨房流程</strong><br />
+    前台传来的点单菜品将出现在待接收列表里面，厨师根据自己制作的菜品类别，选择相应的菜品接收。接收后该菜品出现在已接收列表里面。如果误接受，比如凉菜师傅接收了红烧菜品，可在已接收列表点该菜品，然后点撤单，撤单后该菜品重新出现在待接收列表。<br />
+    <img src="h/17.jpg" />　　<img src="h/18.jpg" />　　<img src="h/19.jpg" /><br />
+    然后厨师开始制作菜肴，制作完成后，在已接收列表中点该菜品，点击完成，该菜品进入待送餐列表，厨师将菜品送至送餐口，等待送餐员下一步处理。<br />
+    <strong>5、退单处理</strong><br />
+    如果因厨房原因某个菜品无法制作，比如原料不足，则可点退单。退单后该菜品后将添加T标记，表示退单处理正在中。<br />
+    顾客下单后同样可点退单，要求更换菜品等，服务员将收到顾客退单提示，请服务员与顾客协商处理。<br />
+    <img src="h/20.jpg" />　　<img src="h/21.jpg" /><br />
+    厨房或顾客退单后，服务员将收到厨房退单提示，该菜品后面“改”字将变为红色，然后服务员在与顾客协商更换等。服务员点击“退”字，决定是否退单，退单成功后该菜品后面改字变为绿色，表示退单完成。<br />
+    服务员亦可在此界面修改菜品的数量和价格。<br />
+    <img src="h/22.jpg" />　　<img src="h/23.jpg" />　　<img src="h/24.jpg" /><br />
+    <strong>6、送餐流程</strong><br />
+    送餐人员根据厨房送来的菜品，查看待送餐列表，查看该菜品应送到哪一个餐桌，然后点击该菜品，点击送餐。送餐完成后，在已送餐列表中点击完成。<br />
+    <img src="h/25.jpg" />　　<img src="h/26.jpg" />　　<img src="h/27.jpg" /><br />
+    <strong>7、顾客结账</strong><br />
+    顾客点击我的点单，点击结账付款，显示选择结账方式界面，然后选择一种结账方式。<br />
+    顾客若选择微信或支付宝方式结账，将会弹出询问顾客是否选择自助结账，若选择确定，请参见7.5.1，若选择取消，请参见7.5.2。<br />
+    <img src="h/28.jpg" />　　<img src="h/29.jpg" /><br />
+    若顾客选择人工结账，服务员将收到结账申请，点开后查看结账方式，并选择可用折扣方式计算应付金额。<br />
+    <img src="h/34.jpg" />　　<img src="h/35.jpg" /><br />
+    <strong>7.1、现金方式</strong>：出于资金管理考虑，服务员不能在手机管理端完成现金结账方式，请将现金交至前台，由前台服务员在电脑上完成结账操作。<br />
+    <strong>7.2、刷卡方式</strong>：服务员拿刷卡机给顾客完成刷卡，刷卡成功后，服务员在操作界面上点结账完成付款操作。<br />
+    <strong>7.3、团购券方式</strong>：请将团购金额或抵扣券，优惠券金额填入抵扣项目，将团购券或抵扣券编码填写入备注。注意！如果团购券或抵扣券金额不足以抵扣当次消费，请选择现金结账。选择团购券方式，实付金额必须为0。<br />
+    <strong>7.4、会员卡方式</strong>：输入会员卡号和密码即可，将自动从会员账户上扣除相应金额。<br />
+    <img src="h/36.jpg" /><br />
+    <strong>7.5、手机扫码支付</strong><br />
+    <strong>7.5.1、顾客自助结账</strong><br />
+    顾客选择自助结账，若选择微信付款，需要用微信的扫一扫扫描桌上二维码进入；若选择支付宝付款，则需要用支付宝扫一扫扫描桌上二维码进入。<br />
+    系统会自动判断顾客已何种方式进入，并弹出相应提示。并提示顾客，自助支付完成后要重新进入页面点击查询微信支付宝支付状态来同步数据！<br />
+    <img src="h/28.jpg" />　　<img src="h/29.jpg" />　　<img src="h/30.jpg" />　　<img src="h/31.jpg" /><br />
+    若顾客选择微信，会弹出一个二维码图片，在二维码图片上长按，在弹出菜单中点击识别二维码，即可在微信内完成支付。<br />
+    <img src="h/32.jpg" /><br />
+    若顾客选择支付宝，则会直接弹出支付付款确认界面，直接支付即可。<br />
+    <span style="color:#F00;">重要：支付过程中页面可能会被关闭，支付完成后务必返回点餐页面点击查询微信支付宝支付状态来同步数据！</span><br />
+    <img src="h/33.jpg" /><br />
+    <strong>7.5.2、服务员生成二维码结账</strong><br />
+    选择微信或支付宝方式，将出现扫码链接。点击扫码链接，将生成一个支付二维码，将此二维码展示给顾客。<br />
+    <img src="h/37.jpg" />　　<img src="h/38.jpg" />　　<img src="h/39.jpg" /><br />
+    顾客使用微信或支付宝扫描此二维码，确认付款金额，即可完成支付。顾客支付后，服务员手机端将同步收到支付成功提示。点确认后，系统将交易号自动填写进备注栏。然后点结账，完成付款操作。<br />
+    <img src="h/40.jpg" />　　<img src="h/41.jpg" />　　<img src="h/42.jpg" /><br />
+    <strong>8、打印小票</strong><br />
+    结账完成后，若需要打印小票，则由前台服务员点击打单按钮，打印该单小票。<br />
+    <strong>9、打扫清台</strong><br />
+    顾客结账离开后，服务员打扫卫生，然后点击清台，该桌状态转入待客状态，等下下一位顾客光临。<br />
+    <strong>10、丢单处理</strong><br />
+    丢单一般发生在店内网络不畅，不能同步到支付结果数据的情况。一般表现为顾客已经支付成功，但收银界面没有跳转到支付成功界面。如发生这种情况，可要求顾客展示微信或支付宝的支付记录。核对商品信息，商品信息为店名+餐费，支付金额是否一致，一致即为支付成功，可以结账。提示：丢单仅是数据不能实时同步而已，并不会缺少该笔交易款，您可以记录微信上的交易单号或支付宝的订单号（28位数字）备查。
+    </div>
+    <div id="dr3" style="display:none;">
+    <div class="tt">四、账单结算</div>
+    <strong>1、登录管理</strong><br />
+    点这里登录商户管理，输入商户ID和密码登录，登陆后如下图。<br />
+    <img src="h/51.jpg" /><br />
+    您可以在此页面修改商户信息，登录密码及通讯密钥；以及提交营业执照审核，审核通过后方可使用费率包月模式。<br />
+    <strong>2、费率说明</strong><br />
+    无论采用何种方式开通支付宝和微信支付功能，每笔交易均由支付宝或微信扣除0.6%的手续费，该费用由支付宝或微信平台收取。<br />
+    <strong>单笔费率</strong>：每笔收取2.8%手续费，包含支付宝或微信收取的的0.6%手续费。<br />
+    <strong>包月模式</strong>：每月仅收取80元平台使用费，每笔交易由支付宝或微信另行扣除0.6%手续费。<br />
+    <strong>3、包月充值</strong><br />
+    要使用包月充值模式，您必须先通过营业执照审核！<br />
+    选择充值时长，点击充值按钮，确认后，将弹出微信支付二维码，使用微信扫描二维码，完成支付。充值成功后，包月有效期将自动延长。<br />
+    <img src="h/52.jpg" /><br />
+    包月充值暂仅支持微信支付方式。<br />
+    <strong>4、交易账单</strong><br />
+    点击账单，将出现通过扫码支付的交易账单详细列表。<br />
+    <img src="h/53.jpg" /><br />
+    <strong>5、交易结算</strong><br />
+    点击管理首页-账户信息-未结金额旁的申请结算链接。系统会自动计算当前可结算金额，然后弹出窗口中点击提交。<br />
+    我公司会在接到您的结算请求24小时内将待结算金额扣除费率后打款至您预留的银行账户。<br />
+    <img src="h/54.jpg" /><br />
+    点击结单可查询每次我公司与您的结账情况。<br />
+    <img src="h/55.jpg" /><br />
+    <strong>6、费率误差</strong><br />
+    本平台费率扣除方式为每笔交易金额乘以费率后四舍五入到分，这样每笔交易分别乘以费率后四舍五入后的总数和交易总额乘以费率后四舍五入会有微小误差。核对账户计算总额请按每笔分别计算后相加。
+    </div>
+    <div id="dr4" style="display:none;">
+    <div class="tt">意见建议</div>
+    联系电话：18671021162<br />
+    业务 QQ：<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=398279288&site=qq&menu=yes">398279288</a><br /><br />
+    <strong>意见建议：</strong><br />
+    您的名称： <input type="text" id="j1" />　　联系方式： <input type="text" id="j2" /><br />
+    意见建议： <textarea style="width:400px;height:160px;" id="j3"></textarea><br />
+    　　　　　 <input type="button" value="提交" onclick="yjjy();" />
+    </div>
+  </div>
+</div>
+<div style="clear:both;"></div>
+<div id="db" style="width:1600px;margin-top:10px;"><div style="width:1000px;margin:auto;font-size:12px;border-top:1px solid #CCC;text-align:center;line-height:40px;">&copy; 2016 All Rights Reserved By Www.1000VW.Com 版权所有</div></div>
+<script type="text/javascript">atwh();</script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+{include file="public/header" /}
+<div id="dcWrap">
+    <!--包含公共模版-->
+    {include file="public/lefter" /}
+    <div id="dcMain">
+        <!-- 当前位置 -->
+        <div id="urHere">管理中心<b>></b><strong>自定义导航栏</strong></div>
+        <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+            <h3><a href="{:url('nav/index')}" class="actionBtn">返回列表</a>自定义导航栏</h3>
+            {js href="__PUBLIC__/js/jquery.tab.js" /}
+            <script type="text/javascript">
+                $(function () {
+                    $(".idTabs").idTabs();
+                });
+            </script>
+            <div class="idTabs">
+                <ul class="tab">
+                    <li><a href="#nav_add" {if condition="$data['type'] eq 0"}class="selected"{/if}>添加站内导航</a></li>
+                    <li><a href="#nav_defined" {if condition="$data['type'] eq 1"}class="selected"{/if}>添加自定义链接</a></li>
+                </ul>
+                <div class="items">
+                    <div id="nav_add">
+                        <form method="post">
+                            <table width="100%" border="0" cellpadding="5" cellspacing="1" class="tableBasic">
+                                <tr>
+                                    <td width="80" height="35" align="right">栏目模型</td>
+                                    <td>
+                                        <select name="modelid" onchange="change('nav_name', this)">
+                                            <option value="">请您选择栏目模型</option>
+                                            {volist name="model" id="m"}
+                                            <option value="{$m.id}" title="{$m.name}" {if condition="$data['modelid'] eq $m['id']"}selected{/if}>- {$m.name}</option>
+                                            {/volist}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="80" height="35" align="right">导航名称</td>
+                                    <td>
+                                        <input type="text" id="nav_name" name="name" value="{$data.name}" size="19" class="inpMain"
+                                               required="required"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="80" height="35" align="right">列表模板</td>
+                                    <td>
+                                        <select name="template_list">
+                                            <option value="">请选择列表模板</option>
+                                            {volist name="list_template" id="template"}
+                                            <option value="{$template}" {if condition="$data['template_list'] eq $template"}selected{/if}>{$template}</option>
+                                            {/volist}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="80" height="35" align="right">展示模板</td>
+                                    <td>
+                                        <select name="template_show">
+                                            <option value="">请选择展示模板</option>
+                                            {volist name="show_template" id="template"}
+                                            <option value="{$template}" {if condition="$data['template_show'] eq $template"}selected{/if}>{$template}</option>
+                                            {/volist}
+                                        </select>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td height="35" align="right">别名（英文）</td>
+                                    <td>
+                                        <input type="text" name="ename" value="{$data.ename}" class="inpMain" required="required"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">位置</td>
+                                    <td>
+                                        <label for="type_0">
+                                            <input type="radio" name="position" id="type_0" value="1" {if condition="$data['position'] eq 1"}checked{/if}>
+                                            主导航</label>
+                                        <label for="type_1">
+                                            <input type="radio" name="position" id="type_1" value="2" {if condition="$data['position'] eq 2"}checked{/if}>
+                                            底部</label>
+                                        <label for="type_2">
+                                            <input type="radio" name="position" id="type_2" value="3" {if condition="$data['position'] eq 3"}checked{/if}>
+                                            侧边</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">上级分类</td>
+                                    <td id="parent">
+                                        <select name="pid">
+                                            <option value="0">无</option>
+                                            {volist name="category" id="c"}
+                                            <option value="{$c.id}" title="{$c.name}" {if condition="$data['pid'] eq $c['id']"}selected{/if}>- {$c.name}</option>
+                                            {/volist}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">关键词</td>
+                                    <td>
+                                        <input type="text" name="keywords" value="{$data.keywords}" class="inpMain" size='52'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">描述</td>
+                                    <td>
+                                        <textarea name="description" class="textArea" rows="5" cols="54">{$data.description}</textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">排序</td>
+                                    <td>
+                                        <input type="text" name="sort" value="{$data.sort}" size="5" class="inpMain"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">是否显示</td>
+                                    <td>
+                                        <label for="type_0">
+                                            <input type="radio" name="status" value="0" {if condition="$data['status'] eq 0"}checked{/if}>
+                                            显示</label>
+                                        <label for="type_1">
+                                            <input type="radio" name="status" value="1" {if condition="$data['status'] eq 1"}checked{/if}>
+                                            不显示</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <input type="hidden" name="id" value="{$data.id}" />
+                                        <span class="btn"> 提交 </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div id="nav_defined">
+                        <form method="post">
+                            <table width="100%" border="0" cellpadding="5" cellspacing="1" class="tableBasic">
+                                <tr>
+                                    <td width="80" height="35" align="right">导航名称</td>
+                                    <td>
+                                        <input type="text" name="name" value="{$data.name}" size="40" class="inpMain"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">别名（英文）</td>
+                                    <td>
+                                        <input type="text" name="ename" value="{$data.ename}" class="inpMain" required="required"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">位置</td>
+                                    <td>
+                                        <label for="type_0">
+                                            <input type="radio" name="position" id="type_0" value="1" {if condition="$data['position'] eq 1"}checked{/if}>
+                                            主导航</label>
+                                        <label for="type_1">
+                                            <input type="radio" name="position" id="type_1" value="2" {if condition="$data['position'] eq 2"}checked{/if}>
+                                            底部</label>
+                                        <label for="type_2">
+                                            <input type="radio" name="position" id="type_2" value="3" {if condition="$data['position'] eq 3"}checked{/if}>
+                                            侧边</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">链接地址</td>
+                                    <td>
+                                        <input type="text" name="outurl" value="{$data.outurl}" size="80" class="inpMain"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">上级分类</td>
+                                    <td id="parent_external">
+                                        <select name="pid">
+                                            <option value="0">无</option>
+                                            {volist name="category" id="c"}
+                                            <option value="{$c.id}" title="{$c.name}" {if condition="$data['pid'] eq $c['id']"}selected{/if}>- {$c.name}</option>
+                                            {/volist}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">排序</td>
+                                    <td>
+                                        <input type="text" name="sort" value="{$data.sort}" size="5" class="inpMain"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="35" align="right">是否显示</td>
+                                    <td>
+                                        <label for="type_0">
+                                            <input type="radio" name="status" value="0" {if condition="$data['status'] eq 0"}checked{/if}>
+                                            显示</label>
+                                        <label for="type_1">
+                                            <input type="radio" name="status" value="1" {if condition="$data['status'] eq 1"}checked{/if}>
+                                            不显示</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <input type="hidden" name="id" value="{$data.id}" />
+                                        <input name="type" type="hidden" value="1" />
+                                        <input name="modelid" type="hidden" value="0" />
+                                        <span class="btn"> 提交 </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <!--包含公共模版-->
+    {include file="public/footer" /}
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    var art_pro_url = "{:url('nav/add')}";
+</script>
+</body>
+</html>
