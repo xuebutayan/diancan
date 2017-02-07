@@ -632,7 +632,9 @@ function sygs(){var o=$$('iny5');var m='';for(var i=0;i<o.length;i++){if(o[i].ch
 //员工删除
 function dygs(){if(eid<0)return;if(!confirm('确认删除？？'))return;var x=xml();x.open('Get',uri+'x=dyg&s='+sid+'&a='+scy[eid][0]+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){hide('dse3');lygs();}else{alert('保存失败，请重试！！');}}};x.send();}
 //餐桌列表
-function lczs(){var x=xml();x.open('Get',uri+'x=lcz&s='+sid+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText.substr(1).split('$');sct=[];if(t[0]!=''){for(var i=0;i<t.length;i++)sct.push(t[i].split('|'));}var s='';for(var i=0;i<sct.length;i++)s+='<div class="ds2l" onclick="eczs('+i+');">'+sct[i][1]+'<br />'+sct[i][3]+'人座</div>';ds2l.innerHTML=s;}};x.send();}
+function lczs(){
+	var x=xml();
+	x.open('Get',uri+'x=lcz&s='+sid+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText.substr(1).split('$');sct=[];if(t[0]!=''){for(var i=0;i<t.length;i++)sct.push(t[i].split('|'));}var s='';for(var i=0;i<sct.length;i++)s+='<div class="ds2l" onclick="eczs('+i+');">'+sct[i][1]+'<br />'+sct[i][3]+'人座</div>';ds2l.innerHTML=s;}};x.send();}
 //餐桌编辑
 function eczs(n){eid=n;show('dse2');var s=n<0?[0,sct.length+1+'号桌',sct.length+1,4,0]:sct[n];int1.value=s[1];int2.value=s[2];int3.value=s[3];dsei.src='http://www.liantu.com/api.php?el=L&m=10&w=281&text='+in4.value+'mobile%2Ephp%3Ft%3D'+s[6]+'';}
 //餐桌保存
@@ -697,7 +699,27 @@ var tcz=[];//餐桌数组
 var tcd;   //餐桌数据
 var tdc=[];//点单数组
 //加载大厅
-function ldts(){var x=xml();x.open('Get',uri+'x=lcz&s='+sid+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText.substr(1).split('$');tcz=[];if(t[0]!=''){for(var i=0;i<t.length;i++)tcz.push(t[i].split('|'));}var s='';for(var i=0;i<tcz.length;i++)s+='<div id="tb'+i+'" class="'+(tcz[i][4]=='0'?'nst3':('.2.3.4.5.11.'.indexOf('.'+tcz[i][4]+'.')>-1?'nst2':'nst1'))+'" style="width:'+(pw/10-32)+'px;" onclick="lczi('+i+');">'+tcz[i][1]+'['+tcz[i][3]+'人座]<div style="text-align:center;">'+tst[tcz[i][4]]+'</div></div>';var d=new Date();dtbl.innerHTML=s+'<div style="clear:both;text-align:center;">更新于 '+d.getHours()+':'+String(100+d.getMinutes()).substr(1,2)+':'+String(100+d.getSeconds()).substr(1,2)+'</div>';cid=setTimeout('ldts()',5000);}};x.send();}
+function ldts(){
+	var x=xml();
+	x.open('Get',uri+'x=lcz&s='+sid+'&'+Math.random(),true);
+	x.onreadystatechange=function(){
+		if(x.readyState==4&&x.status==200){
+			var t=x.responseText.substr(1).split('$');
+			tcz=[];
+			if(t[0]!=''){
+				for(var i=0;i<t.length;i++)
+					tcz.push(t[i].split('|'));
+			}
+			var s='';
+			for(var i=0;i<tcz.length;i++)
+				s+='<div id="tb'+i+'" class="'+(tcz[i][4]=='0'?'nst3':('.2.3.4.5.11.'.indexOf('.'+tcz[i][4]+'.')>-1?'nst2':'nst1'))+'" style="width:'+(pw/10-32)+'px;" onclick="lczi('+i+');">'+tcz[i][1]+'['+tcz[i][3]+'人座]<div style="text-align:center;">'+tst[tcz[i][4]]+'</div></div>';
+			var d=new Date();
+			dtbl.innerHTML=s+'<div style="clear:both;text-align:center;">更新于 '+d.getHours()+':'+String(100+d.getMinutes()).substr(1,2)+':'+String(100+d.getSeconds()).substr(1,2)+'</div>';
+			cid=setTimeout('ldts()',5000);
+		}
+	};
+	x.send();
+}
 //餐桌操作
 function lczi(n){var x=xml();x.open('Get',uri+'x=dtb&s='+sid+'&a='+tcz[n][0]+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='')t='|||||||||||0$';t=t.split('$');var d=t[1].split('|');tcd=t[0].split('|');tcd[1]=n;var s='';for(var i=1;i<d.length;i++){d[i]=d[i].split(',');s+='<div class="ntl1"><div class="ntl2">'+d[i][4]+'</div><div class="ntl3">'+d[i][5]/100+'</div><div class="ntl4"">'+d[i][6]+'</div><div class="ntl3"">'+tst[d[i][7]]+'</div><div class="ntl4"">'+d[i][8]+'</div><div class="ntl4"">'+d[i][9]+'</div><div class="ntl4"">'+d[i][10]+'</div><div class="ntl3""><a href="javascri'+'pt:void(0);" onclick="ddts(\''+d[i].join('|')+'\');">修改</a>'+['','[<span style="color:#F00;">退</span>]','[<span style="color:#093;">退</span>]'][d[i][12]]+'</div></div>';}ntbc.innerHTML=s+'<br />单号：'+tcd[0]+'　下单：'+tcd[2]+'　收银：'+tcd[8]+'　时间：'+tcd[7]+'　金额： '+tcd[3]/100+' / '+tcd[4]/100+' 元['+['现金支付','团购券支付','刷卡支付','会员卡支付','微信支付','支付宝支付'][tcd[5]||0]+']　流程：'+tst[tcz[tcd[1]][4]]+'<br />备注：'+tcd[10];ntbz.innerText=tcz[n][1];show('ntbl')}};x.send();}
 //顾客入座

@@ -1,0 +1,63 @@
+{include file="public/header" /}
+
+<div id="dcWrap">
+    {include file="public/lefter" /}
+    <div id="dcMain">
+        <!-- 当前位置 -->
+        <div id="urHere">管理中心<b>></b><strong>大厅</strong></div>
+        <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+            <h3><a href="{:url('')}" class="actionBtn">添加餐桌</a>大厅</h3>
+
+            <div class="hall_list">
+                <div class="dinner_table_status">
+                    <div class="table_status-seating clearfix">
+                        <h3><span class="seating">顾客入座</span></h3>
+                        {if condition="$hall_seating"}
+                            {volist name="hall_seating" id="item"}
+                                <div class="table-item">
+                                    {$item.table_name}[{$item.table_num}人座]
+                                    <div style="text-align:center;">顾客入座</div>
+                                </div>
+                            {/volist}
+                        {else /}
+                            <div class="table-item">
+                                <p>无</p>
+                            </div>
+                        {/if}
+                    </div>
+                    <div class="table_status-paying clearfix">
+                        <h3><span class="paying">顾客付款</span></h3>
+                        {if condition="$hall_paying"}
+                            {volist name="hall_paying" id="item"}
+                                <div class="table-item">
+                                    {$item.table_name}[{$item.table_num}人座]
+                                    <div style="text-align:center;">顾客付款</div>
+                                </div>
+                            {/volist}
+                        {else /}
+                            <div class="table-item">
+                                <p>无</p>
+                            </div>
+                        {/if}
+                    </div>
+                    <div class="table_status-unmanned clearfix">
+                        <h3><span class="unmanned">空桌待客</span></h3>
+                        {if condition="$hall_unmanned"}
+                            {volist name="hall_unmanned" id="item"}
+                                <div class="table-item">
+                                    {$item.table_name}[{$item.table_num}人座]
+                                    <div style="text-align:center;">空桌待客</div>
+                                </div>
+                            {/volist}
+                        {else /}
+                            <p>无</p>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    {include file="public/footer" /}
+    <div class="clear"></div>
+</div>

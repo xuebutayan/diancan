@@ -1057,6 +1057,69 @@ select {
 #douFrame .selectBox a {
  margin:0 25px;
 }
+/* 大厅样式
+----------------------------------------------- */
+.dinner_table_status h3 {
+ /*border-bottom: 1px solid #60BBFF;*/
+ font-weight: bold;
+ font-size: 14px;
+ height: 35px;
+ padding-bottom: 0;
+ margin-bottom: 10px;
+ overflow: hidden;
+}
+.dinner_table_status>div {
+ margin-bottom: 10px;
+}
+.dinner_table_status h3 span {
+ color: #FFF;
+ display: block;
+ padding: 0 44px;
+ text-decoration: none;
+ line-height:35px;
+ float: left;
+}
+.table_status-seating .table-item {
+ background-color: #00FF00;
+ color: #FFF;
+ /*border-color: #00FF00;*/
+}
+.table_status-unmanned .table-item {
+ background-color: #60BBFF;
+ /*border-color: #60BBFF;*/
+}
+.table_status-paying .table-item {
+ background-color: #4e3500;
+ color: #FFF;
+ /*border-color: #4e3500;*/
+}
+.unmanned {
+ background-color: #60BBFF;
+}
+.seating {
+ background-color: #00FF00;
+}
+.paying {
+ background-color: #4e3500;
+}
+
+/* 餐桌样式
+----------------------------------------------- */
+.table-item {
+ width:15%;
+ float: left;
+ height: 68px;
+ text-align: center;
+ padding: 5px 10px;
+ background-color: #F3F9FF;
+ line-height: 32px;
+ border: 1px solid #09F;
+ margin: 5px;
+}
+.table-item p {
+ line-height:68px;
+}
+
 /* 模块扩展
 ----------------------------------------------- */
 #module .install {
