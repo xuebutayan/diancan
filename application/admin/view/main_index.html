@@ -6,15 +6,6 @@
     {/if}
 
     <div id="douApi"></div>
-    <div class="indexBox">
-        <div class="boxTitle">单页面快速管理</div>
-        <ul class="ipage">
-            {volist name="single_page" id="page"}
-            <a href="{:url('page/edit',['id' => $page.id])}">{$page.name}</a>
-            {/volist}
-            <div class="clear"></div>
-        </ul>
-    </div>
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="indexBoxTwo">
         <tr>
             <td width="65%" valign="top" class="pr">
@@ -46,7 +37,7 @@
                                 <td>编码：</td>
                                 <td><strong>UTF-8</strong></td>
                             </tr>
-                            
+
                         </table>
                     </ul>
                 </div>
@@ -92,31 +83,6 @@
                     <td valign="top">{$software.gd}</td>
                     <td valign="top">Web 服务器：</td>
                     <td valign="top">{$software.env}</td>
-                </tr>
-            </table>
-        </ul>
-    </div>
-    <div class="indexBox">
-        <div class="boxTitle">系统开发</div>
-        <ul>
-            <table width="100%" border="0" cellspacing="0" cellpadding="7" class="tableBasic">
-                <tr>
-                    <td width="120"> 官网：</td>
-                    <td><a href="http://www.5none.com" target="_blank">http://www.5none.com</a></td>
-                </tr>
-                <tr>
-                    <td> 意见反馈：</td>
-                    <td><a href="http://www.5none.com" target="_blank">http://www.5none.com </a><em>（安装使用
-                        BUG反馈 意见建议）</em></td>
-                </tr>
-                <tr>
-                    <td> 开发者：</td>
-                    <td>nango</td>
-                </tr>
-                <tr>
-                    <td> 系统使用协议：</td>
-                    <td><a href="http://www.5none.com" target="_blank">http://www.5none.com</a><em>（您可以免费使用
-                        （不限商用），但必须保留相关版权信息。）</em></td>
                 </tr>
             </table>
         </ul>
