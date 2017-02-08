@@ -1115,6 +1115,7 @@ select {
  line-height: 32px;
  border: 1px solid #09F;
  margin: 5px;
+ cursor: pointer;
 }
 .table-item p {
  line-height:68px;

@@ -42,7 +42,7 @@ class Hall extends Common
      */
     protected function getHall() {
 
-        $hall = Db::name('DinnerTable') -> field('*') -> where('1 = 1') ->order('sort ASC, id ASC') -> select();
+        $hall = Db::name('DinnerTable') -> field('*') -> where('state = 1') ->order('sort ASC, id ASC') -> select();
 
         return $hall;
     }
@@ -54,7 +54,7 @@ class Hall extends Common
      */
     protected function getHallByStatu($statu) {
         $hall = Db::name('DinnerTable') -> field('*')
-                                        -> where('table_status = '.$statu)
+                                        -> where('table_status = '.$statu.' AND state = 1')
                                         -> order('sort ASC, id ASC') -> select();
         return $hall;
     }
