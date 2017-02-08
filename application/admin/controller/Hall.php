@@ -27,12 +27,12 @@ class Hall extends Common
     public function index() {
 
         // 大厅餐桌信息
-        $hall_unmanned = $this->getHallByStatu($this->dinner_table_status['UNMANNED']);
-        $hall_seating = $this->getHallByStatu($this->dinner_table_status['SEATING']);
-        $hall_paying = $this->getHallByStatu($this->dinner_table_status['PAYING']);
-        $this->assign('hall_unmanned', $hall_unmanned);
-        $this->assign('hall_seating', $hall_seating);
-        $this->assign('hall_paying', $hall_paying);
+        $dtinfo = $this->getHallByStatu(); 
+        
+        $this->assign('hall_unmanned', empty($dtinfo['unmanned']) ? null : $dtinfo['unmanned']);
+        $this->assign('hall_seating', empty($dtinfo['seating']) ? null : $dtinfo['seating']);
+        $this->assign('hall_paying', empty($dtinfo['paying']) ? null : $dtinfo['paying']);
+        
         return $this->fetch();
     }
 
@@ -49,14 +49,25 @@ class Hall extends Common
 
     /**
      * 根据 餐桌状态获得大厅信息
-     * @param $statu 餐桌状态
      * @return array
      */
-    protected function getHallByStatu($statu) {
+    protected function getHallByStatu() {
         $hall = Db::name('DinnerTable') -> field('*')
-                                        -> where('table_status = '.$statu.' AND state = 1')
+                                        -> where('state = 1')
                                         -> order('sort ASC, id ASC') -> select();
-        return $hall;
+        $dtinfo = array();
+        foreach ($hall as $key => $value) {
+            if ($value['table_status'] == $this->dinner_table_status['UNMANNED']) {
+                $dtinfo['unmanned'][$key] = $value;     
+            }
+            if ($value['table_status'] == $this->dinner_table_status['SEATING']) {
+                $dtinfo['seating'][$key] = $value; 
+            }
+            if ($value['table_status'] == $this->dinner_table_status['PAYING']) {
+                $dtinfo['paying'][$key] = $value;  
+            }
+        }
+        return $dtinfo;
     }
 
 

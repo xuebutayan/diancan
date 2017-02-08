@@ -6,11 +6,11 @@
         <!-- 当前位置 -->
         <div id="urHere">管理中心<b>></b><strong>餐桌管理</strong></div>
         <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
-            <h3><a href="{:url('')}" class="actionBtn">添加餐桌</a>餐桌管理</h3>
+            <h3><a href="javascript:;" class="actionBtn">添加餐桌</a>餐桌管理</h3>
 
             <div class="hall_list">
                 {volist name="tables" id="item"}
-                    <div class="table-item" data-id="{$item.id}">
+                    <div class="table-item editTable" data-url="{:url('dtsetting/edit',['id' => $item.id])}">
                         {$item.table_name}
                         <br/>
                         [{$item.table_num}人座]
@@ -26,32 +26,24 @@
 <script type="text/javascript">
     $('.actionBtn').click(function(){
         layer.open({
-            title: '添加管理员',
+            title: '添加餐桌',
             type: 2,
-            area: ['700px', '530px'],
+            area: ['700px', '390px'],
             fixed: false, //不固定
             maxmin: true,
             content: 'add'
         });
     });
-    $('.edit-flink').click(function(){
+    $('.editTable').click(function(){
         var url = $(this).data('url');
+        console.log(url);
         layer.open({
-            title: '修改管理员',
+            title: '修改餐桌信息',
             type: 2,
-            area: ['700px', '530px'],
+            area: ['700px', '390px'],
             fixed: false, //不固定
             maxmin: true,
             content: url
         });
     });
-    //删除
-    $(".del").click(function(){
-        var id= $(this).data('id');
-        confirms('','是否确认删除编号为【'+ id +'】的用户？','',function(){
-            $.get("{:url('admin/dele')}",{id:id},function(data){
-                alertw(data);
-            });
-        });
-    })
 </script>

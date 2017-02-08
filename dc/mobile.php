@@ -2,6 +2,7 @@
 require "config.php";
 $x=isset($_GET["x"])?$_GET["x"]:"";
 $s=isset($_GET["s"])?$_GET["s"]:"";if($s=="")$s="0";
+echo $OpID;
 switch($x){
 	case "kcz"://餐桌
 	$a=Req("a");
@@ -95,6 +96,7 @@ switch($x){
 	default:
 	$p=mysql_result(mysql_query("Select Nm From CFG Where ID=1"),0);
 	$t=Req("t");
+	echo $t;
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -146,20 +148,20 @@ function atwh(){
 function kcz(n,m){
 	var x=xml();
 	x.open('Get',uri+'x=kcz&a='+n+'&'+Math.random(),true);
-	x.onreadystatechange=function(){
-		if(x.readyState==4&&x.status==200){
-			var t=x.responseText;
-			if(t.substr(0,2)=='OK'){
-				t=t.substr(2).split('|');
-				tid=t[0];ori=t[3];dz1.innerText=t[1];dz2.innerText=t[1];
-				if(t[2]=='0'){
-					document.write('Table Close!');
-				}else{
-					if(m)kcd();setTimeout('kcz(\''+n+'\')',10000);
-				}
-			}else document.write('Err Tid!');
-		}
-	};x.send();
+//	x.onreadystatechange=function(){
+//		if(x.readyState==4&&x.status==200){
+//			var t=x.responseText;
+//			if(t.substr(0,2)=='OK'){
+//				t=t.substr(2).split('|');
+//				tid=t[0];ori=t[3];dz1.innerText=t[1];dz2.innerText=t[1];
+//				if(t[2]=='0'){
+//					document.write('Table Close!');
+//				}else{
+//					if(m)kcd();setTimeout('kcz(\''+n+'\')',10000);
+//				}
+//			}else document.write('Err Tid!');
+//		}
+//	};x.send();
 }
 //菜单
 function kcd(){var x=xml();x.open('Get',uri+'x=kcd&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=(x.responseText+'@@@').split('@@@');var a=t[0].split('$');for(var i=1;i<a.length;i++){a[i]=a[i].split('|');lcb.push(a[i]);}var b=t[1].split('$');for(var i=1;i<b.length;i++){b[i]=b[i].split('|');lcd.push(b[i]);}var s='';for(var i=0;i<lcb.length;i++)s+='<div id="dmi'+i+'" class="dml2" style="display:'+(lcb[i][2]=='0'?'block':'none')+';" onClick="kcl('+i+');">'+lcb[i][1]+'</div>';dml.innerHTML=s;kcl(0);}};x.send();}

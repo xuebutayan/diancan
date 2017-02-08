@@ -1,0 +1,81 @@
+{include file="public/header" /}
+<div id="dcWrap">
+    <div id="dcMain">
+        <!-- 当前位置 -->
+        <div id="urHere">管理中心<b>></b><strong>添加餐桌</strong></div>
+        <div id="manager" class="mainBox" style="height:auto!important;">
+
+            <form class="clearfix">
+                <table border="0" cellpadding="8" cellspacing="0" class="tableBasic tableNew">
+                    <tr>
+                        <td width="100" align="right">餐桌号</td>
+                        <td>
+                            <input type="text" name="table_name" size="25" value="{$data.table_name}" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100" align="right">可坐人数</td>
+                        <td>
+                            <input type="text" name="table_num" value="{$data.table_num}" size="5" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">排序</td>
+                        <td>
+                            <input type="text" name="sort" value="{$data.sort}" size="5" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">餐桌状态</td>
+                        <td>
+                            <label for="islock">
+                                <input type="radio" name="state" id="state" value="2" {if condition="$data['state'] eq 2"}checked{/if}>
+                                停用</label>
+                            <label for="islock">
+                                <input type="radio" name="state" id="state" value="1" {if condition="$data['state'] eq 1"}checked{/if}>
+                                使用</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="hidden" name="id" value="{$data.id}"/>
+                            <a class="btn btn-danger del" data-id="{$data['id']}">删除</a>
+                            <span class="btn form-pull" style="margin-left: 25px;">提 交</span>
+                        </td>
+                    </tr>
+                </table>
+                <div class="QR-code">
+                    <img src="http://www.liantu.com/api.php?el=L&amp;m=10&amp;w=281&amp;text=http://dc.sdmeitao.com/dc/mobile%2Ephp%3Ft%3Df68ec4f0" id="dsei" width="140">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="clear"></div>
+    {include file="public/footer" /}
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    var art_pro_url = "{:url('dtsetting/add')}";//form表单要提交的地址
+</script>
+<script type="text/javascript">
+    //删除
+    $(".del").click(function(){
+        var id= $(this).data('id');
+        confirms('','是否确认删除编号为【'+ id +'】的用户？','',function(){
+            $.get("{:url('dtsetting/dele')}",{id:id},function(data){
+                alertw(data.msg);
+                if (data.status) {
+                    //layer层 特殊处理
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    if(index){
+                        parent.layer.close(index); //再执行关闭
+                        parent.window.location.reload();
+                    }
+                }
+            }, "JSON");
+        });
+    })
+</script>
+</body>
+</html>

@@ -636,7 +636,15 @@ function lczs(){
 	var x=xml();
 	x.open('Get',uri+'x=lcz&s='+sid+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText.substr(1).split('$');sct=[];if(t[0]!=''){for(var i=0;i<t.length;i++)sct.push(t[i].split('|'));}var s='';for(var i=0;i<sct.length;i++)s+='<div class="ds2l" onclick="eczs('+i+');">'+sct[i][1]+'<br />'+sct[i][3]+'人座</div>';ds2l.innerHTML=s;}};x.send();}
 //餐桌编辑
-function eczs(n){eid=n;show('dse2');var s=n<0?[0,sct.length+1+'号桌',sct.length+1,4,0]:sct[n];int1.value=s[1];int2.value=s[2];int3.value=s[3];dsei.src='http://www.liantu.com/api.php?el=L&m=10&w=281&text='+in4.value+'mobile%2Ephp%3Ft%3D'+s[6]+'';}
+function eczs(n){
+	eid=n;show('dse2');
+	var s=n<0?[0,sct.length+1+'号桌',sct.length+1,4,0]:sct[n];
+	int1.value=s[1];
+	int2.value=s[2];
+	int3.value=s[3];
+	dsei.src='http://www.liantu.com/api.php?el=L&m=10&w=281&text='+in4.value+'mobile%2Ephp%3Ft%3D'+s[6]+'';
+	dsei.alt=s[1]+'--|--'+s[2]+'--|--'+s[3]+'--|--'+s[4]+'--|--'+s[5]+'--|--'+s[6];
+}
 //餐桌保存
 function sczs(){var s=[0,int1.value==''?'未命名':int1.value,int2.value,int3.value,0];if(eid>=0)s[0]=sct[eid][0];var x=xml();x.open('Get',uri+'x=scz&s='+sid+'&a='+escape(s.join('|'))+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){hide('dse2');lczs();}else{alert('保存失败，请重试！！');}}};x.send();}
 //餐桌删除

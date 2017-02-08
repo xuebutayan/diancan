@@ -1120,6 +1120,27 @@ select {
 .table-item p {
  line-height:68px;
 }
+.tableNew {
+ display: block;
+ float: left;
+ width: 60%;
+ border: none;
+}
+.tableNew tr td {
+ border: none;
+}
+.QR-code {
+ float: right;
+ width: 40%;
+}
+.QR-code img {
+ display: block;
+ width:80%;
+}
+.form-options {
+ margin: 54px 0px;
+ padding: 0px 50px;
+}
 
 /* 模块扩展
 ----------------------------------------------- */

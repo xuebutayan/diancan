@@ -1,0 +1,60 @@
+{include file="public/header" /}
+<div id="dcWrap">
+    <div id="dcMain">
+        <!-- 当前位置 -->
+        <div id="urHere">管理中心<b>></b><strong>添加餐桌</strong></div>
+        <div id="manager" class="mainBox" style="height:auto!important;">
+
+            <form class="clearfix">
+                <table border="0" cellpadding="8" cellspacing="0" class="tableBasic tableNew">
+                    <tr>
+                        <td width="100" align="right">餐桌号</td>
+                        <td>
+                            <input type="text" name="table_name" size="25" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100" align="right">可坐人数</td>
+                        <td>
+                            <input type="text" name="table_num" size="5" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">排序</td>
+                        <td>
+                            <input type="text" name="sort" size="5" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">餐桌状态</td>
+                        <td>
+                            <label for="islock">
+                                <input type="radio" name="state" id="state" value="2">
+                                停用</label>
+                            <label for="islock">
+                                <input type="radio" name="state" id="state" value="1"  checked>
+                                使用</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <span class="btn">提 交</span>
+                        </td>
+                    </tr>
+                </table>
+                <div class="QR-code">
+                    <img src="{$QR_CODE_URL}" id="dsei" width="140">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="clear"></div>
+    {include file="public/footer" /}
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    var art_pro_url = "{:url('dtsetting/add')}";//form表单要提交的地址
+</script>
+</body>
+</html>
