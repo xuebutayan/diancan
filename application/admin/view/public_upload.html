@@ -5,7 +5,7 @@
 </script>
 <td align="right">[tip]</td>
 <td>
-<div class="litpic_show"> 
+<div class="litpic_show">
     <div id="images_area">
         <!--图片集-->
         {if condition="isset($item) and isset($item['pictureurls']) and !isset($item['shorttitle']) and $item['pictureurls'] neq null" }
@@ -54,7 +54,18 @@
             </div>
             <div class="clear"></div>
         {/if}
-    </div>                  
+        <!--banner大图 img字段判断是否来自文章模型-->
+        {if condition="isset($item['pic'])and $item['pic'] neq null" }
+            <div class="picture_item">
+                <img src="{$item['pic']}" width="110" height="110">
+                <div class="upload_success"></div>
+                <div class="index_picture">设为封面</div>
+                <div class="layui-layer-ico picture_del "></div>
+                <input type="hidden" name="pic_url[]" value="{$item['pic']}" />
+            </div>
+            <div class="clear"></div>
+        {/if}
+    </div>
 
     <div class="btn_up">
         <a href="javascript:;" class="file">
@@ -68,28 +79,28 @@
 $(function () {
     //图片上传
     var upload_max = typeof(upload_max) == 'undefined'?1:upload_max;
-    
+
     var $imgarea = $('#images_area');
     var $tip = $(".tip");
     $("#picture_upload").wrap("<form id='picture_form' action='{:url('main/upload')}' method='post' enctype='multipart/form-data'></form>");
     $("#picture_upload").change(function(){
         if($("#picture_upload").val() == "") return;
         if ($("#images_area>.picture_item").length >= upload_max ) {alerts('最多上传'+ upload_max +'张图片');return;}
-    
+
         $("#picture_form").ajaxSubmit({
             dataType:  'json',
             beforeSend: function() {
                 $tip.html("上传中...").show();
             },
             success: function(data) {
-                if(data.status == 1){    
-                    $tip.hide();                   
+                if(data.status == 1){
+                    $tip.hide();
                     var img = data.path;
                     var picture_html= '<div class="picture_item"><img src="'+ img +'" width="110" height="110"><div class="upload_success"></div><div class="index_picture">设为封面</div><div class="layui-layer-ico picture_del"></div><input type="hidden" name="pic_url[]" value="'+ img +'" /></div>';
                     $('#images_area').append(picture_html);
                 }else {
-                    $tip.html(data.status);   
-                }           
+                    $tip.html(data.status);
+                }
 
             },
             error:function(xhr){
@@ -110,7 +121,7 @@ $(function () {
             }else{
                 alerts(data.msg);
             }
-        },'json');*/        
+        },'json');*/
     });
 
     //设为封面

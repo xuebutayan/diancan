@@ -696,7 +696,11 @@ function lcds(n){
 //菜品编辑
 function ecds(n){eid=n;show('dse1b');var s=n<0?[0,'',',',scd.length+1,'',0,0]:scd[n];var c='';for(var i=0;i<scl.length;i++)c+=' <input type="checkbox" name="inc2" value="'+scl[i][0]+'"'+(s[2].indexOf(','+scl[i][0]+',')>-1?' checked="checked"':'')+'> '+scl[i][1];dse1bf.innerHTML=c;inc1.value=s[1];inc3.value=s[3];inc4.value=s[4];inc6.value=s[6]/100;inc7.checked=s[7]=='1';cqq.innerText=s[5]==0?'':'[浏览图片]';cqq.href='i/c'+s[0]+'.jpg';document.getElementById('ifm3').src=uri+'x=u&s='+sid+'&a=c';}
 //菜品保存
-function scds(){var o=$$('inc2');var m=',';for(var i=0;i<o.length;i++){if(o[i].checked)m+=o[i].value+',';}var s=[0,inc1.value==''?'未命名':inc1.value,m==','?(','+scl[0][0]+','):m,inc3.value,inc4.value,cpp.value,inc6.value*100,inc7.checked?1:0];if(eid>=0)s[0]=scd[eid][0];var x=xml();x.open('Get',uri+'x=scd&s='+sid+'&a='+escape(s.join('|'))+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){hide('dse1b');llbs();}else{alert('保存失败，请重试！！');}}};x.send();}
+function scds(){
+	var o=$$('inc2');var m=',';
+	for(var i=0;i<o.length;i++){if(o[i].checked)m+=o[i].value+',';}
+		var s=[0,inc1.value==''?'未命名':inc1.value,m==','?(','+scl[0][0]+','):m,inc3.value,inc4.value,cpp.value,inc6.value*100,inc7.checked?1:0];
+	if(eid>=0)s[0]=scd[eid][0];var x=xml();x.open('Get',uri+'x=scd&s='+sid+'&a='+escape(s.join('|'))+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){hide('dse1b');llbs();}else{alert('保存失败，请重试！！');}}};x.send();}
 //菜品删除
 function dcds(){if(eid<0)return;if(!confirm('确认删除？？'))return;var x=xml();x.open('Get',uri+'x=dcd&s='+sid+'&a='+scd[eid][0]+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){hide('dse1b');llbs();}else{alert('保存失败，请重试！！');}}};x.send();}
 //显示大厅层

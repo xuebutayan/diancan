@@ -63,7 +63,7 @@ class Main extends Common
     {
         if (!input('?param.act')) {
             $file = request()->file('pic_url');
-            $info = $file->move(ROOT_PATH . 'public/uploads');
+            $info = $file->move(ROOT_PATH . 'uploads');
             if ($info) {
                 // 成功上传后 获取上传信息
                 $path = $info->getPath();
@@ -84,7 +84,7 @@ class Main extends Common
             //删除图片
             $img_dir = input('param.path');
             $real_path = str_replace(__ROOT__,'',$img_dir);
-            $path = str_replace(['/..\/','/../'],'/',ROOT_PATH.$real_path);  
+            $path = str_replace(['/..\/','/../'],'/',ROOT_PATH.$real_path);
             if (@unlink($path)) {
                 exit(json_encode(['status' => 1, 'msg' => '删除成功']));
             } else {

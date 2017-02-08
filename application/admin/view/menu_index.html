@@ -6,55 +6,22 @@
         <!-- 当前位置 -->
         <div id="urHere"><a href="{:url('index/index')}"> 管理中心</a><b>></b><strong>菜单设置</strong></div>
         <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
-        <h3><a href="{:url('menu/addDish')}" class="actionBtn add">添加菜品</a><a href="{:url('menu/addCat')}" class="actionBtn add">添加分类</a>菜单设置</h3>
+        <h3><a data-url="{:url('combo/edit1')}" onclick="cpbj(this);" class="actionBtn add">添加套餐</a><a data-url="{:url('dish/edit1')}" onclick="cpbj(this);" class="actionBtn add">添加菜品</a><a data-url="{:url('menu/edit1')}" onclick="flbj(this);" class="actionBtn add">添加分类</a>菜单设置</h3>
 
 <!-- 菜单设置内容 -->
 <div class="menu-box">
 <div id="ds1la" style="float:left;width:150px;">
-  <div id="ds1l0" class="ds1la1" onclick="lcds(0);"><span class="ds1la3" onclick="elbs(0);">E</span> 推荐(8)</div>
-  <div id="ds1l1" class="ds1la1" onclick="lcds(1);"><span class="ds1la3" onclick="elbs(1);">E</span> 热销(2)</div>
-  <div id="ds1l2" class="ds1la2" onclick="lcds(2);"><span class="ds1la3" onclick="elbs(2);">E</span> 火锅(2)</div>
-  <div id="ds1l3" class="ds1la1" onclick="lcds(3);"><span class="ds1la3" onclick="elbs(3);">E</span> 红烧(2)</div>
-  <div id="ds1l4" class="ds1la1" onclick="lcds(4);"><span class="ds1la3" onclick="elbs(4);">E</span> 小炒(2)</div>
-  <div id="ds1l5" class="ds1la1" onclick="lcds(5);"><span class="ds1la3" onclick="elbs(5);">E</span> 清蒸(2)</div>
-  <div id="ds1l6" class="ds1la1" onclick="lcds(6);"><span class="ds1la3" onclick="elbs(6);">E</span> 煲汤(2)</div>
-  <div id="ds1l7" class="ds1la1" onclick="lcds(7);"><span class="ds1la3" onclick="elbs(7);">E</span> 凉菜(2)</div>
-  <div id="ds1l8" class="ds1la1" onclick="lcds(8);"><span class="ds1la3" onclick="elbs(8);">E</span> 主食(2)</div>
-  <div id="ds1l9" class="ds1la1" onclick="lcds(9);"><span class="ds1la3" onclick="elbs(9);">E</span> 杂项(2)</div>
+{volist name="cat" id="c"}
+  <div id="ds1l{$i}" class="ds1la{if condition="$i==1"}2{else /}1{/if}" onclick="cplb({$c.ID},this);"><span class="ds1la3" data-url="{:url('menu/edit',['id'=>$c.ID])}" onclick="flbj(this);">E</span> &nbsp;&nbsp;&nbsp;{$c.Nm} {if condition="$c.Nh"} H {/if}</div>
+{/volist}
 </div>
 <div id="ds1lb" style="float: left; width: 1560px;">
-  <div class="ds1lb1" onclick="ecds(0);">
-    <div class="ds1lb2"><img src="i/c1.jpg" width="60" height="60"></div>
-    羊肉火锅<br>
-    售价：88 元</div>
-  <div class="ds1lb1" onclick="ecds(4);">
-    <div class="ds1lb2"><img src="i/c5.jpg" width="60" height="60"></div>
-    鱼香肉丝<br>
-    售价：28 元</div>
-  <div class="ds1lb1" onclick="ecds(16);">
-    <div class="ds1lb2"><img src="i/n.jpg" width="60" height="60"></div>
-    test<br>
-    售价：10 元</div>
-  <div class="ds1lb1" onclick="ecds(17);">
-    <div class="ds1lb2"><img src="i/n.jpg" width="60" height="60"></div>
-    test2<br>
-    售价：10 元</div>
-  <div class="ds1lb1" onclick="ecds(18);">
-    <div class="ds1lb2"><img src="i/n.jpg" width="60" height="60"></div>
-    test3<br>
-    售价：10 元</div>
-  <div class="ds1lb1" onclick="ecds(19);">
-    <div class="ds1lb2"><img src="i/n.jpg" width="60" height="60"></div>
-    test4<br>
-    售价：10 元</div>
-  <div class="ds1lb1" onclick="ecds(20);">
-    <div class="ds1lb2"><img src="i/n.jpg" width="60" height="60"></div>
-    test5<br>
-    售价：10 元</div>
-  <div class="ds1lb1" onclick="ecds(21);">
-    <div class="ds1lb2"><img src="i/n.jpg" width="60" height="60"></div>
-    test6<br>
-    售价：10 元</div>
+{volist name="dishes" id="d"}
+  <div class="ds1lb1" data-url="{:url('Dish/edit',['id'=>$d.ID])}" onclick="cpbj(this);">
+    <div class="ds1lb2"><img src="{if condition="empty($d['pic'])"}__COMMON__/images/0.jpg{else /}{$d.pic}{/if}" width="60" height="60"></div>
+    {$d.Nm}<br>
+    售价：{$d['Ns']/100} 元</div>
+{/volist}
 </div>
 </div>
     <!-- /菜单设置内容 -->
@@ -67,11 +34,52 @@
     <div class="clear"></div>
 </div>
 <script type="text/javascript">
-$(function(){
-    var pw=parseInt(document.documentElement.clientWidth);
+var pw=parseInt(document.documentElement.clientWidth);
+$('#ds1lb').css("width",pw-360+'px');
+//分类编辑
+function flbj(obj){
+  var url = $(obj).data('url');
+    layer.open({
+        title: '编辑分类',
+        type: 2,
+        area: ['470px', '310px'],
+        fixed: false, //不固定
+        maxmin: true,
+        content: url
+      });
+}
+//菜品编辑
+function cpbj(obj){
+    var url = $(obj).data('url');
+    layer.open({
+        title: '编辑菜品',
+        type: 2,
+        area: ['640px', '450px'],
+        fixed: false, //不固定
+        maxmin: true,
+        content: url
+      });
+  }
+//菜品列表
+function cplb(id,obj){
+  var img = '__COMMON__/images/0.jpg';
+  $(obj).siblings().attr('class','ds1la1');
+  $(obj).attr('class','ds1la2');
+  $.get('{:url('Menu/menus')}',{cid:id},function(a){
+
+    var t=a.split('$');
+    scd=[];
+    for(var i=0;i<t.length;i++) scd.push(t[i].split('|'));
+
+    var s='';
+    for(var i=0;i<scd.length;i++){
+      if(scd[i][0])
+        s+='<div class="ds1lb1" data-url='+scd[i][8]+' onclick="cpbj(this);"><div class="ds1lb2"><img src="'+(scd[i][9]==''?img:decodeURIComponent(scd[i][9]))+'" width="60" height="60" /></div>'+scd[i][1]+(scd[i][7]=='1'?'[H]':'')+'<br />售价：'+scd[i][6]/100+' 元</div>';
+    }
+    $('#ds1lb').html(s);
     $('#ds1lb').css("width",pw-360+'px');
-    //ds1lb.style.width=pw-360+'px';
-});
+  })
+}
 </script>
 </body>
 </html>

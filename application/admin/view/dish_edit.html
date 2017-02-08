@@ -1,0 +1,93 @@
+{include file="public/header" /}
+<div id="dcWrap">
+    <div id="dcMain">
+        <!-- 当前位置 -->
+        <div id="urHere">管理中心<b>></b><strong>菜品编辑</strong></div>
+        <div id="manager" class="mainBox" style="height:auto!important;">
+
+            <form>
+                <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+                    <tr>
+                        <td width="100" align="right">菜品名称</td>
+                        <td>
+                            <input type="text" name="Nm" value="{$data.Nm}" size="40" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100" align="right">所属分类</td>
+                        <td>
+                            {volist name="cats" id="c"}
+                            <input type="checkbox" name="Nt[]" value="{$c.ID}" {if condition="in_array($c['ID'],array_filter(explode(',',$data['Nt'])))"}checked{/if}>{$c.Nm}
+                            {/volist}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100" align="right">菜品排序</td>
+                        <td>
+                            <input type="text" name="No" value="{$data.No}" size="10" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100" align="right">菜品描述</td>
+                        <td>
+                            <input type="text" name="Ni" value="{$data.Ni}" size="60" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--上传图片-->
+                        {include file="public/upload" tip="菜品图片"}
+                    </tr>
+                    <tr>
+                        <td width="100" align="right">菜品售价</td>
+                        <td>
+                            <input type="text" name="Ns" value="{$data['Ns']/100}" size="10" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100" align="right">菜品套餐中分组</td>
+                        <td>
+                            <input type="text" name="groups" value="{$data.groups}" size="10" class="inpMain"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">套餐中是否可选</td>
+                        <td>
+                            <label for="islock">
+                                <input type="radio" name="choice" id="islock" value="0" {if condition="$data['choice'] eq 0"} checked="true"{/if}>
+                                否</label>
+                            <label for="islock">
+                                <input type="radio" name="choice" id="islock" value="1" {if condition="$data['choice'] eq 1"} checked="true"{/if}>
+                                是</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">是否隐藏</td>
+                        <td>
+                            <label for="islock">
+                                <input type="radio" name="Nh" id="islock" value="0" {if condition="$data['Nh'] eq 0"} checked="true"{/if}>
+                                否</label>
+                            <label for="islock">
+                                <input type="radio" name="Nh" id="islock" value="1" {if condition="$data['Nh'] eq 1"} checked="true"{/if}>
+                                是</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            {if condition="$data['ID']"}<input type="hidden" name="ID" value="{$data.ID}"/>{/if}
+                            <span class="btn">提 交</span>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="clear"></div>
+    {include file="public/footer" /}
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    var art_pro_url = "{:url('dish/add')}";//form表单要提交的地址
+</script>
+</body>
+</html>
