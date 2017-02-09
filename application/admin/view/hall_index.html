@@ -6,17 +6,16 @@
         <!-- 当前位置 -->
         <div id="urHere">管理中心<b>></b><strong>大厅</strong></div>
         <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
-            <h3><!--<a href="{:url('')}" class="actionBtn">添加餐桌</a>-->大厅</h3>
-
+            <h3><span style="font-size:16px; float:right; line-height: 62px;">更新时间：<em id="update-time">{$update_time}</em> </span>大厅</h3>
             <div class="hall_list">
                 <div class="dinner_table_status">
                   <div class="table_status-seating clearfix">
-                        <h3><span class="seating">顾客入座</span></h3>
+                        <h3><span class="seating">顾客下单</span></h3>
                         {if condition="$hall_seating"}
                             {volist name="hall_seating" id="item"}
-                                <div class="table-item actionBtn" data-status="{$item.table_status}">
-                                    {$item.table_name}[{$item.table_num}人座]
-                                    <div style="text-align:center;">顾客入座</div>
+                                <div class="table-item actionBtn" data-url="{:url('hall/order', ['id'=>$item.ID])}">
+                                    {$item.Nm}[{$item.Ns}人座]
+                                    <div style="text-align:center;">顾客下单</div>
                                 </div>
                             {/volist}
                         {else /}
@@ -26,12 +25,12 @@
                         {/if}
                     </div>
                     <div class="table_status-paying clearfix">
-                        <h3><span class="paying">顾客付款</span></h3>
+                        <h3><span class="paying">打扫清台</span></h3>
                         {if condition="$hall_paying"}
                             {volist name="hall_paying" id="item"}
-                                <div class="table-item actionBtn" data-status="{$item.table_status}">
-                                    {$item.table_name}[{$item.table_num}人座]
-                                    <div style="text-align:center;">顾客付款</div>
+                                <div class="table-item actionBtn" data-url="{:url('hall/order', ['id'=>$item.ID])}">
+                                    {$item.Nm}[{$item.Ns}人座]
+                                    <div style="text-align:center;">结账完成</div>
                                 </div>
                             {/volist}
                         {else /}
@@ -44,8 +43,8 @@
                         <h3><span class="unmanned">空桌待客</span></h3>
                         {if condition="$hall_unmanned"}
                             {volist name="hall_unmanned" id="item"}
-                                <div class="table-item" data-status="{$item.table_status}">
-                                    {$item.table_name}[{$item.table_num}人座]
+                                <div class="table-item" data-url="{:url('hall/order', ['id'=>$item.ID])}">
+                                    {$item.Nm}[{$item.Ns}人座]
                                     <div style="text-align:center;">空桌待客</div>
                                 </div>
                             {/volist}
@@ -58,6 +57,7 @@
                 </div>
             </div>
         </div>
+        <div id="embed"></div>
     </div>
     <div class="clear"></div>
     {include file="public/footer" /}
@@ -65,18 +65,37 @@
 </div>
 <script type="text/javascript">
     $('.actionBtn').click(function(){
+        var url = $(this).data('url');
         layer.open({
             title: '餐桌订餐信息',
             type: 2,
-            area: ['700px', '390px'],
+            area: ['840px', '520px'],
             fixed: false, //不固定
             maxmin: true,
-            content: ''
+            content: url
         });
     });
     $(function() {
-        setInterval(function() {
-            window.location.reload();
-        }, 5000);
+        var interval = setInterval(poll, 10000);
     });
+
+    function poll() {
+        $.get("{:url('hall/poll')}",function(data){
+            if (data.status) {
+                $('#embed').html('<embed src="__PUBLIC__/images/dingdong.wav" autostart="false" loop="false" hidden="true" id="embed">');
+                layer.closeAll('iframe');
+                layer.open({
+                    type: 2,
+                    title: '消息提醒',
+                    shade: [0],
+                    area: ['250px', '215px'],
+                    offset: 'rb', //右下角弹出
+                    anim: 2,
+                    content: data.url,
+                });
+            }
+            // 更新时间
+            $('#update-time').text(data.time);
+        }, "JSON");
+    }
 </script>

@@ -1,0 +1,68 @@
+{include file="public/header" /}
+<div id="dcWrap">
+    <div id="dcMain">
+        <!-- 当前位置 -->
+        <div id="manager" class="mainBox food-back" style="height:auto!important;">
+            <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+                <tr>
+                    <td style="width: 15%;">桌号</td>
+                    <td style="width: 25%;">{$foodback['table_name']}</td>
+                    <td style="width: 15%;">菜品</td>
+                    <td>{$foodback['Cn']}</td>
+                </tr>
+                <tr>
+                    <td style="width: 15%;">单价</td>
+                    <td style="width: 25%;">{$foodback['Cp']}&nbsp;元</td>
+                    <td  style="width: 15%;">数量</td>
+                    <td>{$foodback['Cs']}</td>
+                </tr>
+                <tr>
+                    <td style="width: 15%;">总金额</td>
+                    <td>{$foodback['Tp']}&nbsp;元</td>
+                    <td>状态</td>
+                    <td class="{eq name='$foodback.Td' value='2'}red{/eq}">{$foodback['status']}</td>
+                </tr>
+                <tr>
+                    <td  style="width: 15%;">退菜原因</td>
+                    <td colspan="3">
+                        <input type="text" name="Bz" value="{$foodback['Bz']}"  class="inpMain" style="width: 96%;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: center;">
+                        <input type="hidden" value="{$foodback.ID}" name="id">
+                        <input type="hidden" value="{$foodback.Oi}" name="Oi">
+                        <a href="javascript:;" class="btn btn-danger foodback-btn" data-type="0">拒退</a>
+                        <a href="javascript:;" class="btn btn-info foodback-btn" data-type="2">退菜</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="clear"></div>
+    {include file="public/footer" /}
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $(".foodback-btn").click(function(){
+        var type = $(this).data('type');
+        var id = $('input[name="id"]').val();
+        var Oi = $('input[name="Oi"]').val();
+        var bz = $('input[name="Bz"]').val();
+        var msg = type == 0 ? "是否确认拒退？" : "是否确认退菜？";
+        confirms('',msg,'',function(){
+            $.get("{:url('hall/disheseidt')}",{id:id, Oi: Oi, bz: bz, type: type},function(data){
+                if (data.status) {
+                    //layer层 特殊处理
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    if(index){
+                        parent.layer.close(index); //再执行关闭
+                        parent.window.location.reload();
+                    }
+                }
+            }, "JSON");
+        });
+    })
+</script>
+</body>
+</html>

@@ -32,7 +32,7 @@ class Dtsetting extends Common {
      */
     protected function getHall() {
 
-        $hall = Db::name('DinnerTable') -> field('*') -> where('state = 1') ->order('sort ASC, id ASC') -> select();
+        $hall = Db::table('SCT') -> field('ID,Nm,No,Ns,Ni,Oi') -> where('DD', 0) ->order('No ASC') -> select();
 
         return $hall;
     }
@@ -47,10 +47,10 @@ class Dtsetting extends Common {
             //修改处理
             $params = input('post.');
             $data = [
-                'table_name' => $params['table_name'],
-                'table_num'  => $params['table_num'],
-                'sort'       => $params['sort'],
-                'state'      => $params['state'],
+                'Nm' => $params['Nm'],
+                'Ns' => $params['Ns'],
+                'No' => $params['No'],
+                'DD' => $params['DD'],
             ];
             //验证规则
             $validate = Loader::validate('Dtsetting');
@@ -61,7 +61,7 @@ class Dtsetting extends Common {
                     $error = $validate->getError();
                     exit(json_encode(['status' => 0, 'msg' => $error, 'url' => '']));
                 }
-                $flag = Db::name('DinnerTable')->where('id',$params['id'])->update($data);
+                $flag = Db::table('SCT')->where('id',$params['id'])->update($data);
                 if ($flag) {
                     // TODO 添加Log日志
                     exit(json_encode(['status' => 1, 'msg' => '修改成功', 'url' => url('admin/index')]));
@@ -75,7 +75,7 @@ class Dtsetting extends Common {
                     exit(json_encode(['status' => 0, 'msg' => $error, 'url' => '']));
                 }
 
-                $flag=Db::name('DinnerTable')->insert($data);
+                $flag=Db::table('SCT')->insert($data);
 
                 if ($flag) {
                     // TODO 添加Log日志
@@ -97,7 +97,7 @@ class Dtsetting extends Common {
      */
     public function edit($id)
     {
-        $data = Db::name('DinnerTable')->find($id);
+        $data = Db::table('SCT')->find($id);
         $this->assign('data', $data);
         return $this->fetch();
     }
@@ -108,7 +108,7 @@ class Dtsetting extends Common {
     public function dele()
     {
         $id = input('param.id/d',0);
-        $flag = Db::name('DinnerTable')->where(['id' => $id])->update(['state' => 0]);
+        $flag = Db::table('SCT')->where(['id' => $id])->update(['DD' => 1]);
         if ($flag) {
             exit(json_encode(['status' => 1, 'msg' => '删除成功', 'url' => url('Dtsetting/index')]));
         } else {

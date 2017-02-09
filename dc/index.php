@@ -303,7 +303,7 @@ switch($x){
 	mysql_query("Update OCK Set Td=".$d[$a[3]].",Bz='".$a[4]."' Where ID=".$a[2]);
 	$q=mysql_query("Select Cp,Cs,Td From OCK Where Oi=".$a[1]);
 	$b=0;
-	$c=array(1,1,0);
+	$c=array(1,1,0);ddqt();
 	while($r=mysql_fetch_array($q)){
 		$b=$b+$r[0]*$r[1]*$c[$r[2]];
 	}
@@ -733,7 +733,28 @@ function ldts(){
 	x.send();
 }
 //餐桌操作
-function lczi(n){var x=xml();x.open('Get',uri+'x=dtb&s='+sid+'&a='+tcz[n][0]+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='')t='|||||||||||0$';t=t.split('$');var d=t[1].split('|');tcd=t[0].split('|');tcd[1]=n;var s='';for(var i=1;i<d.length;i++){d[i]=d[i].split(',');s+='<div class="ntl1"><div class="ntl2">'+d[i][4]+'</div><div class="ntl3">'+d[i][5]/100+'</div><div class="ntl4"">'+d[i][6]+'</div><div class="ntl3"">'+tst[d[i][7]]+'</div><div class="ntl4"">'+d[i][8]+'</div><div class="ntl4"">'+d[i][9]+'</div><div class="ntl4"">'+d[i][10]+'</div><div class="ntl3""><a href="javascri'+'pt:void(0);" onclick="ddts(\''+d[i].join('|')+'\');">修改</a>'+['','[<span style="color:#F00;">退</span>]','[<span style="color:#093;">退</span>]'][d[i][12]]+'</div></div>';}ntbc.innerHTML=s+'<br />单号：'+tcd[0]+'　下单：'+tcd[2]+'　收银：'+tcd[8]+'　时间：'+tcd[7]+'　金额： '+tcd[3]/100+' / '+tcd[4]/100+' 元['+['现金支付','团购券支付','刷卡支付','会员卡支付','微信支付','支付宝支付'][tcd[5]||0]+']　流程：'+tst[tcz[tcd[1]][4]]+'<br />备注：'+tcd[10];ntbz.innerText=tcz[n][1];show('ntbl')}};x.send();}
+function lczi(n){
+	var x=xml();
+	x.open('Get',uri+'x=dtb&s='+sid+'&a='+tcz[n][0]+'&'+Math.random(),true);
+	x.onreadystatechange=function(){
+		if(x.readyState==4&&x.status==200){
+			var t=x.responseText;if(t=='')t='|||||||||||0$';
+			t=t.split('$');
+			var d=t[1].split('|');
+			tcd=t[0].split('|');
+			tcd[1]=n;
+			var s='';
+			for(var i=1;i<d.length;i++){
+				d[i]=d[i].split(',');
+				s+='<div class="ntl1"><div class="ntl2">'+d[i][4]+'</div><div class="ntl3">'+d[i][5]/100+'</div><div class="ntl4"">'+d[i][6]+'</div><div class="ntl3"">'+tst[d[i][7]]+'</div><div class="ntl4"">'+d[i][8]+'</div><div class="ntl4"">'+d[i][9]+'</div><div class="ntl4"">'+d[i][10]+'</div><div class="ntl3""><a href="javascri'+'pt:void(0);" onclick="ddts(\''+d[i].join('|')+'\');">修改</a>'+['','[<span style="color:#F00;">退</span>]','[<span style="color:#093;">退</span>]'][d[i][12]]+'</div></div>';
+			}
+			ntbc.innerHTML=s+'<br />单号：'+tcd[0]+'　下单：'+tcd[2]+'　收银：'+tcd[8]+'　时间：'+tcd[7]+'　金额： '+tcd[3]/100+' / '+tcd[4]/100+' 元['+['现金支付','团购券支付','刷卡支付','会员卡支付','微信支付','支付宝支付'][tcd[5]||0]+']　流程：'+tst[tcz[tcd[1]][4]]+'<br />备注：'+tcd[10];
+			ntbz.innerText=tcz[n][1];
+			show('ntbl')
+		}
+	};
+	x.send();
+}
 //顾客入座
 function ddrz(){if(tcz[tcd[1]][4]>0)return;var x=xml();x.open('Get',uri+'x=drz&s='+sid+'&a='+tcz[tcd[1]][0]+'&b='+tcd[0]+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){hide('ntbl');clearTimeout(cid);ldts();}else{alert('提交失败，请稍后重试！');}}};x.send();}
 //显示点单
@@ -751,7 +772,10 @@ function ddcf(){if(tcd[0]=='')return;var x=xml();x.open('Get',uri+'x=dcf&s='+sid
 //点单编辑
 function ddts(t){show('dst');t=t.split('|');eid=t[0];inb1.innerText=tcz[tcd[1]][1];inb2.innerText=t[4];inb3.value=t[13];inb4.innerText=t[6];inb5.value=t[6];inb6.value=t[5]/100;}
 //点单退单
-function ddtd(n){if(!confirm('确认退单？？'))return;var x=xml();x.open('Get',uri+'x=dtd&s='+sid+'&a='+escape(tcz[tcd[1]][0]+'|'+tcd[0]+'|'+eid+'|'+n+'|'+inb3.value)+'&b='+uid+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){alert('已退单完成！');dst.style.display='none';clearTimeout(cid);ldts();setTimeout('lczi('+tcd[1]+')',300);}else{alert('提交失败，请稍后重试！');}}};x.send();}
+function ddtd(n){
+	if(!confirm('确认退单？？'))return;
+	var x=xml();
+	x.open('Get',uri+'x=dtd&s='+sid+'&a='+escape(tcz[tcd[1]][0]+'|'+tcd[0]+'|'+eid+'|'+n+'|'+inb3.value)+'&b='+uid+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){alert('已退单完成！');dst.style.display='none';clearTimeout(cid);ldts();setTimeout('lczi('+tcd[1]+')',300);}else{alert('提交失败，请稍后重试！');}}};x.send();}
 //点单修改
 function ddsl(){var x=xml();x.open('Get',uri+'x=dsl&s='+sid+'&a='+escape(tcz[tcd[1]][0]+'|'+tcd[0]+'|'+eid+'|'+inb4.innerText+'|'+inb6.value*100)+'&b='+uid+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){alert('已修改完成！');dst.style.display='none';clearTimeout(cid);ldts();setTimeout('lczi('+tcd[1]+')',300);}else{alert('提交失败，请稍后重试！');}}};x.send();}
 //显示换桌
@@ -772,7 +796,11 @@ function ddjk(){clearTimeout(wid);var x=xml();x.open('Get',uri+'x=djk&s='+sid+'&
 //网付查询
 function ddcx(){var x=xml();x.open('Get','http://www.1000vw.com/Qw/sync.php?x='+oid+'-'+tcd[0]+'-c-&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText.split('OK');var s=0;for(var i=1;i<t.length;i++){var h=t[i].split('|');if(jtbb.value.indexOf(h[2])<0){dsf.style.display='none';dsff.innerHTML='';clearTimeout(wid);alert('手机扫码支付已成功！\n\n单　号：'+h[0]+'\n金　额：'+h[1]/100+'元\n时　间：'+h[3]+'\n交易号：'+h[2]);var d='['+['W:','A:'][jbtf.options.selectedIndex-4]+(h[1]/100)+':'+h[2]+']';jtbb.value=jtbb.value.replace(d,'')+d;s=1;}}if(s==0)wid=setTimeout('ddcx()',3000);}};x.send();}
 //打扫清台
-function ddqt(){if(tcz[tcd[1]][4]!='0'&&tcz[tcd[1]][4]!='1'&&tcz[tcd[1]][4]!='12'){alert('已下单及未结账，不能清台！');return;}if(!confirm('确认清台？？'))return;var x=xml();x.open('Get',uri+'x=dqt&s='+sid+'&a='+tcz[tcd[1]][0]+'&b='+tcd[0]+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){hide('ntbl');clearTimeout(cid);ldts();}else{alert('提交失败，请稍后重试！');}}};x.send();}
+function ddqt(){
+	if(tcz[tcd[1]][4]!='0'&&tcz[tcd[1]][4]!='1'&&tcz[tcd[1]][4]!='12'){
+		alert('已下单及未结账，不能清台！');return;
+	}if(!confirm('确认清台？？'))return;
+	var x=xml();x.open('Get',uri+'x=dqt&s='+sid+'&a='+tcz[tcd[1]][0]+'&b='+tcd[0]+'&'+Math.random(),true);x.onreadystatechange=function(){if(x.readyState==4&&x.status==200){var t=x.responseText;if(t=='OK'){hide('ntbl');clearTimeout(cid);ldts();}else{alert('提交失败，请稍后重试！');}}};x.send();}
 //打印小票
 function ddpt(){if(tcd[0]=='')return;var o=document.getElementById(navigator.userAgent.indexOf('MSIE')>=0?'LdpIE':'LdpGC');if(typeof(o.VERSION)=='undefined'){alert('未安装打印控件！');return;}o.PRINT_INIT('Print:'+sid);o.SET_PRINT_PAGESIZE(3,scp[0]*10,scp[2]*10,'CreateCustomPage');o.ADD_PRINT_HTM(0,0,scp[1]*10,500,'URL:index.php?x=dpt&s='+sid+'&b='+tcd[0]);o.PREVIEW();}
 </script>

@@ -10,10 +10,10 @@
 
             <div class="hall_list">
                 {volist name="tables" id="item"}
-                    <div class="table-item editTable" data-url="{:url('dtsetting/edit',['id' => $item.id])}">
-                        {$item.table_name}
+                    <div class="table-item editTable" data-url="{:url('dtsetting/edit',['id' => $item.ID])}">
+                        {$item.Nm}
                         <br/>
-                        [{$item.table_num}人座]
+                        [{$item.Ns}人座]
                     </div>
                 {/volist}
             </div>

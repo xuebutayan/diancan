@@ -1,0 +1,120 @@
+{include file="public/header" /}
+<div id="dcWrap">
+    <div id="dcMain">
+        <!-- 当前位置 -->
+        <div id="urHere">管理中心<b>></b><strong class="tableName">{$table_name}</strong> - 点餐列表</div>
+        <div id="manager" class="mainBox  hall-order" style="height:auto!important;">
+            <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+                    <tr>
+                        <th style="width: 25%;">菜品</th>
+                        <th style="width: 10%;">单价</th>
+                        <th>数量</th>
+                        <th style="width: 15%;">状态</th>
+                        <th>下单</th>
+                        <th>厨师</th>
+                        <th>送餐</th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name="dishes" id="di"}
+                    <tr>
+                        <td>{$di.Cn}</td>
+                        <td>{$di.Cp}</td>
+                        <td>{$di.Cs}</td>
+                        <td>{$di.St}</td>
+                        <td>{$di.I1}</td>
+                        <td>{$di.I2}</td>
+                        <td>{$di.I3}</td>
+                        <td style="position:relative;">
+                            <a href="javascript:;" class="btn btn-info food-back" data-url="{:url('hall/foodback', ['id'=>$di.ID])}">修改</a>
+                            {eq name="$di.Td" value="2"}<i class="foodback-icon">已退</i>{/eq}
+                        </td>
+                    </tr>
+                    {/volist}
+                    <tr>
+                        <td colspan="8">
+                            <input type="hidden" name="id" value="{$order.ID}">
+                            <input type="hidden" name="Pz" value="{$order.Pz}">
+                            {neq name="$order.St" value="$STATUS['PAYING']"}<a href="javacript:;" class="btn btn-success settle" data-id="{$order.Ti}">结账</a>{/neq}
+                            <a href="javacript:;" class="btn btn-danger clearDt" data-id="{$order.Ti}">清台</a>
+                        </td>
+                    </tr>
+                </table>
+            <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic" style="margin-top: 35px;">
+                <tr>
+                    <th colspan="6">订单信息</th>
+                </tr>
+                <tr>
+                    <td>单号</td>
+                    <td>{$order.ID}</td>
+                    <td>下单</td>
+                    <td>{$order.Yi}</td>
+                    <td>时间</td>
+                    <td>{$order.Dt}</td>
+                </tr>
+                <tr>
+                    <td>金额</td>
+                    <td colspan="5" style="text-align: left; padding-left: 25px;" class="Pz">{$order.Pz}&nbsp;元</td>
+                </tr>
+                <tr>
+                    <td>备注</td>
+                    <td colspan="5" style="text-align: left;">{$order.Bz}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="clear"></div>
+    {include file="public/footer" /}
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    var _pz = $('.Pz').text();
+    var _tableName = $('.tableName').text();
+    $('.food-back').click(function(){
+        var url = $(this).data('url');
+        layer.open({
+            title: '退菜',
+            type: 2,
+            area: ['560px', '340px'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: url
+        });
+    });
+    $(".settle").click(function(){
+        var Ti = $(this).data('id');
+        var oid = $('input[name="id"]').val();
+        var Pz = $('input[name="Pz"]').val()
+        var _msg = _tableName + " - 结账金额："+ _pz + "<br/><br/>是否确认结账?";
+        confirms('结账',_msg,'',function(){
+            $.get("{:url('hall/settle')}",{Ti: Ti, oid: oid, Pz: Pz},function(data){
+                alertw(data.msg)
+                //layer层 特殊处理
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                if(index){
+                    parent.layer.close(index); //再执行关闭
+                    parent.window.location.reload();
+                }
+            }, "JSON");
+        });
+    })
+    $(".clearDt").click(function(){
+        var Ti = $(this).data('id');
+        var oid = $('input[name="id"]').val()
+        confirms('','是否确认清台？','',function(){
+            $.get("{:url('hall/clearDt')}",{Ti: Ti, oid: oid},function(data){
+                if (data.status) {
+                    //layer层 特殊处理
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    if(index){
+                        parent.layer.close(index); //再执行关闭
+                        parent.window.location.reload();
+                    }
+                } else {
+                    alertw(data.msg);
+                }
+            }, "JSON");
+        });
+    })
+</script>
+</body>
+</html>
