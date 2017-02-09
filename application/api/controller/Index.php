@@ -32,26 +32,51 @@ class Index extends Controller
         //插入订单表
         $oid = Db::table('ODR')->insertGetId(['Ti' => $table_id, 'St' => 3, 'Dt' => $f_time, 'Ds' => $f_time]);
         if(!$oid) return json($db_error);
-
+        //所有菜品
+        $dishes = Db::table('SCD')->field('ID,Nm')->where(['DD'=>0])->select();
+        $all_dishes = [];
+        foreach ($dishes as $v) {
+           $all_dishes[$v['ID']] = $v;
+        }
         foreach ($items as $v) {
             $cnum = intval($v['cnum']);
             if($cnum <= 0) continue;
-            $info = Db::table('SCD')->field('ID,Nm,Ns')->where('ID', $v['cid'])->find();//菜品表
-            if ($info) {
-                $total_price += $info['Ns'] * intval($cnum);
-                //插入订单详细表
-                Db::table('OCK')->insert(['Oi' => $oid, 'Ti' => $table_id, 'Ci' => $v['cid'], 'Cn' => $info['Nm'], 'Cp' => $info['Ns'], 'Cs' => $cnum, 'St' => 3, 'Dt' => $f_time]);
-                //订单历史记录
-                $h_detail .= $table_id.'|'.$info['Nm'].'|'.$info['Ns'].'|'.$cnum.'$';
-            } else {
-                return json($db_error);
+            if($v['combo']==0){//菜品
+                $info = Db::table('SCD')->field('ID,Nm,Ns')->where('ID', $v['cid'])->find();//菜品表
+                if ($info) {
+                    $total_price += $info['Ns'] * intval($cnum);
+                    //插入订单详细表
+                    Db::table('OCK')->insert(['Oi' => $oid, 'Ti' => $table_id, 'Ci' => $v['cid'], 'Cn' => $info['Nm'], 'Cp' => $info['Ns'], 'Cs' => $cnum, 'St' => 3, 'Dt' => $f_time]);
+                    //订单历史记录
+                    $h_detail .= $table_id.'|'.$info['Nm'].'|'.$info['Ns'].'|'.$cnum.'$';
+                } else {
+                    return json($db_error);
+                }
+            }elseif($v['combo']==1){//套餐
+                $info = Db::name('combo')->field('id,name,dishes,price')->where('id', $v['cid'])->find();//套餐表
+                if ($info) {
+                    $info['price'] = $info['price']*100;
+                    $total_price += $info['price'] * intval($cnum);
+                    //读取套餐中的菜品
+                    $t_dishes = '';
+                    $v['dishes'] = explode(',',$v['dishes']);
+                    foreach ($v['dishes'] as $v) {
+                        $t_dishes .= ','.$all_dishes[$v]['Nm'];
+                    }
+                    //插入订单详细表
+                    Db::table('OCK')->insert(['Oi' => $oid, 'Ti' => $table_id, 'Ci' => $v['cid'], 'Cn' => $info['name'], 'Cp' => $info['price'], 'Cs' => $cnum, 'St' => 3, 'Dt' => $f_time,'combo'=>1]);
+                    //订单历史记录
+                    $h_detail .= $table_id.'|'.$info['name'].';'.trim($t_dishes,',').'|'.$info['price'].'|'.$cnum.'$';
+                } else {
+                    return json($db_error);
+                }
             }
         }
 
         //更新订单表
         Db::table('ODR')->where('id',$oid)->update(['Pz'=>$total_price]);
         //更新桌号表
-        Db::table('SCT')->where('ID',$table_id)->update(['Ni'=>1,'Oi'=>$oid]);
+        Db::table('SCT')->where('ID',$table_id)->update(['Ni'=>3,'Oi'=>$oid]);
         //保存积分，1元=1积分
         $re = Db::name('member')->where('open_id',$open_id)->find();
         $total_price = $total_price/100;
@@ -68,7 +93,7 @@ class Index extends Controller
     function getHistory(){
     	$open_id = input('post.open_id');
     	if(!$open_id) return json(['status'=>0,'info'=>'open_id不能为空']);
-    	$list = Db::name('ohistory')->where('open_id',$open_id)->select();
+    	$list = Db::name('ohistory')->where('open_id',$open_id)->order('posttime desc')->select();
     	$new_list = [];
     	if(!$list) return json(['status'=>0,'info'=>'查询无历史记录']);
     	foreach ($list as $v) {
