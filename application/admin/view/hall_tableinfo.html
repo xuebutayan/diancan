@@ -1,0 +1,34 @@
+{include file="public/header" /}
+<div id="dcWrap">
+    <div id="dcMain">
+        <div id="manager" class="tableinfo" style="height:auto!important;">
+            <ul>
+                {volist name="tableinfo" id="info"}
+                <a href="javacript:;" class="btnClose" data-url="{:url('hall/order', ['id'=> $info.ID])}"><li>{$info.Nm}- 顾客下单 -<span style="color: red;"> 未查看</span></li></a>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <div class="clear"></div>
+    {include file="public/footer" /}
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $('.btnClose').click(function() {
+        var url = $(this).data('url');
+        $.get("{:url('hall/updatestatus')}",function(data){
+            var _index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.full(_index);
+            parent.layer.open({
+                title: '餐桌订餐信息',
+                type: 2,
+                area: ['840px', '520px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: url
+            });
+        });
+    });
+</script>
+</body>
+</html>

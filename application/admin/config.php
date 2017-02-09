@@ -17,4 +17,12 @@ return [
         '__PUBLIC__' => __ROOT__.'/static/admin',
         '__COMMON__' => __ROOT__.'/static/common'
     ],
+
+    // 餐桌状态配置
+    'table_status' => [
+        '0' => '空桌待客',
+        '3' => '顾客下单',
+        '12' => '结账完成',
+        '13' => '打扫清台',
+    ],
 ];

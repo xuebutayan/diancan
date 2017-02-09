@@ -11,20 +11,22 @@ namespace app\admin\validate;
 use think\Validate;
 
 class Dtsetting extends Validate {
+
+
     protected $rule =   [
-        'table_name'  => 'require|unique:dinner_table|max:25',
-        'table_num'   => 'require|number|egt:1',
-        'sort'        => 'number',
+        'Nm'  => 'require|max:25',
+        'Ns'  => 'require|number|egt:1',
+        'No'  => 'number',
     ];
 
     protected $message  =   [
-        'table_name.require' => '餐桌名称必须',
-        'table_name.unique'  => '餐桌名称必须唯一',
-        'table_name.max'     => '餐桌名称最多不能超过25个字符',
-        'table_num.require'  => '可坐人数必须',
-        'table_num.number'   => '可坐人数必须为数字',
-        'table_num.egt'      => '可坐人数必须大于零',
-        'sort.number'        => '排序必须为数字',
+        'Nm.require' => '餐桌名称必须',
+        'Nm.unique'  => '餐桌名称必须唯一',
+        'Nm.max'     => '餐桌名称最多不能超过25个字符',
+        'Ns.require' => '可坐人数必须',
+        'Ns.number'  => '可坐人数必须为数字',
+        'Ns.egt'     => '可坐人数必须大于零',
+        'No.number'  => '排序必须为数字',
     ];
 
     /**

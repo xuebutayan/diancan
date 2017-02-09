@@ -10,37 +10,37 @@
                     <tr>
                         <td width="100" align="right">餐桌号</td>
                         <td>
-                            <input type="text" name="table_name" size="25" value="{$data.table_name}" class="inpMain"/>
+                            <input type="text" name="Nm" size="25" value="{$data.Nm}" class="inpMain"/>
                         </td>
                     </tr>
                     <tr>
                         <td width="100" align="right">可坐人数</td>
                         <td>
-                            <input type="text" name="table_num" value="{$data.table_num}" size="5" class="inpMain"/>
+                            <input type="text" name="Ns" value="{$data.Ns}" size="5" class="inpMain"/>
                         </td>
                     </tr>
                     <tr>
                         <td align="right">排序</td>
                         <td>
-                            <input type="text" name="sort" value="{$data.sort}" size="5" class="inpMain"/>
+                            <input type="text" name="No" value="{$data.No}" size="5" class="inpMain"/>
                         </td>
                     </tr>
                     <tr>
                         <td align="right">餐桌状态</td>
                         <td>
                             <label for="islock">
-                                <input type="radio" name="state" id="state" value="2" {if condition="$data['state'] eq 2"}checked{/if}>
+                                <input type="radio" name="DD" id="state" value="1" {if condition="$data['DD'] eq 1"}checked{/if}>
                                 停用</label>
                             <label for="islock">
-                                <input type="radio" name="state" id="state" value="1" {if condition="$data['state'] eq 1"}checked{/if}>
+                                <input type="radio" name="DD" id="state" value="0" {if condition="$data['DD'] eq 0"}checked{/if}>
                                 使用</label>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>
-                            <input type="hidden" name="id" value="{$data.id}"/>
-                            <a class="btn btn-danger del" data-id="{$data['id']}">删除</a>
+                            <input type="hidden" name="id" value="{$data.ID}"/>
+                            <a class="btn btn-danger del" data-id="{$data['ID']}">删除</a>
                             <span class="btn form-pull" style="margin-left: 25px;">提 交</span>
                         </td>
                     </tr>

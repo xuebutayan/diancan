@@ -1059,6 +1059,27 @@ select {
 }
 /* 大厅样式
 ----------------------------------------------- */
+.hall-order table tr td {
+ text-align: center;
+}
+.food-back table tr td {
+ text-align: center;
+}
+.food-back td.red {
+ color: red;
+}
+.foodback-icon {
+ display: inline-block;
+ position: absolute;
+ top: 0;
+ right: 0;
+ color: #FFFFFF;
+ background-color: #d9534f;
+ padding: 2px;
+}
+.food-back table.tableBasic tr td:first-child {
+ width: 10%;
+}
 .dinner_table_status h3 {
  /*border-bottom: 1px solid #60BBFF;*/
  font-weight: bold;
@@ -1102,6 +1123,14 @@ select {
 .paying {
  background-color: #4e3500;
 }
+.tableinfo ul {
+ padding: 15px;
+}
+.tableinfo ul li {
+ text-align: center;
+ padding: 5px 15px;
+}
+
 
 /* 餐桌样式
 ----------------------------------------------- */
