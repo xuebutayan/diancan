@@ -210,3 +210,28 @@ function get_url() {
     $relate_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $php_self.(isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : $path_info);
     return $sys_protocal.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').$relate_url;
 }
+if(!function_exists('array_column')){
+    function array_column(array $input, $columnKey, $indexKey = null) {
+        $result = array();
+        if (null === $indexKey) {
+            if (null === $columnKey) {
+                $result = array_values($input);
+            } else {
+                foreach ($input as $row) {
+                    $result[] = $row[$columnKey];
+                }
+            }
+        } else {
+            if (null === $columnKey) {
+                foreach ($input as $row) {
+                    $result[$row[$indexKey]] = $row;
+                }
+            } else {
+                foreach ($input as $row) {
+                    $result[$row[$indexKey]] = $row[$columnKey];
+                }
+            }
+        }
+        return $result;
+    }
+}

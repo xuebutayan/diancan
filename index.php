@@ -17,6 +17,7 @@ if(!file_exists(APP_PATH.'database.php')){
 	header('Content-Type:text/html;charset=UTF-8');
 	echo '请先安装本程序！运行public目录下，install文件夹下index.php即可安装！';exit;
 }
+define('DS','/');//修复在win环境下调试，在linux环境下运行上传路径问题。
 // 加载框架引导文件
 require __DIR__ . '/thinkphp/start.php';
 

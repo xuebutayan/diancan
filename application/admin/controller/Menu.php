@@ -20,13 +20,21 @@ class Menu extends Common{
     	foreach ($dishes as $v) {
     		if(in_array($cid,array_filter(explode(',',$v['Nt'])))) $new_dishes[]=$v;
     	}
+    	//套餐
+    	$combo = Db::name('combo')->order('listorder asc')->select();
+    	$new_combo = [];
+    	foreach ($combo as $v) {
+    		if(in_array($cid,array_filter(explode(',',$v['cats'])))) $new_combo[]=$v;
+    	}
     	$this->assign('dishes',$new_dishes);
+    	$this->assign('combo',$new_combo);
     	$this->assign('cat',$cat);//dump($cat);
         return $this->fetch();
     }
     function menus(){
     	$id = input('get.cid');
     	$dishes = Db::table('SCD')->where(['DD'=>0])->order('No asc')->select();
+    	$combo = Db::name('combo')->order('listorder asc')->select();
     	$re = '';
     	foreach ($dishes as $v) {
     		if(in_array($id,array_filter(explode(',',$v['Nt'])))){
@@ -34,7 +42,15 @@ class Menu extends Common{
     			$re .= '$'.$v['ID'].'|'.$v['Nm'].'|'.$v['Nt'].'|'.$v['No'].'|'.$v['Ni'].'|'.$v['Np'].'|'.$v['Ns'].'|'.$v['Nh'].'|'.$v['url'].'|'.$v['pic'];
     		}
     	}
-    	echo $re;
+    	//套餐菜品显示
+    	$re2 = '';
+    	foreach ($combo as $v) {
+    		if(in_array($id,array_filter(explode(',',$v['cats'])))){
+    			$v['url'] = url('combo/edit','id='.$v['id']);
+    			$re2 .= '$'.$v['id'].'|'.$v['name'].'[套]|'.$v['cats'].'|'.$v['pic'].'|'.$v['price'].'|'.$v['url'];
+    		}
+    	}
+    	return json(['dishes'=>$re,'combo'=>$re2]);
     }
     public function add()
     {

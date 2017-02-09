@@ -22,6 +22,12 @@
     {$d.Nm}<br>
     售价：{$d['Ns']/100} 元</div>
 {/volist}
+{volist name="combo" id="d"}
+  <div class="ds1lb1" data-url="{:url('combo/edit',['id'=>$d.id])}" onclick="cpbj(this);">
+    <div class="ds1lb2"><img src="{if condition="empty($d['pic'])"}__COMMON__/images/0.jpg{else /}{$d.pic}{/if}" width="60" height="60"></div>
+    {$d.name}[套]<br>
+    售价：{$d['price']} 元</div>
+{/volist}
 </div>
 </div>
     <!-- /菜单设置内容 -->
@@ -66,15 +72,21 @@ function cplb(id,obj){
   $(obj).siblings().attr('class','ds1la1');
   $(obj).attr('class','ds1la2');
   $.get('{:url('Menu/menus')}',{cid:id},function(a){
-
-    var t=a.split('$');
+console.log(a);
+    var t=a.dishes.split('$');
     scd=[];
     for(var i=0;i<t.length;i++) scd.push(t[i].split('|'));
-
     var s='';
     for(var i=0;i<scd.length;i++){
       if(scd[i][0])
         s+='<div class="ds1lb1" data-url='+scd[i][8]+' onclick="cpbj(this);"><div class="ds1lb2"><img src="'+(scd[i][9]==''?img:decodeURIComponent(scd[i][9]))+'" width="60" height="60" /></div>'+scd[i][1]+(scd[i][7]=='1'?'[H]':'')+'<br />售价：'+scd[i][6]/100+' 元</div>';
+    }
+    var p=a.combo.split('$');
+    com=[];
+    for(var i=0;i<p.length;i++) com.push(p[i].split('|'));
+    for(var i=0;i<com.length;i++){
+      if(com[i][0])
+        s+='<div class="ds1lb1" data-url='+com[i][5]+' onclick="cpbj(this);"><div class="ds1lb2"><img src="'+(com[i][3]==''?img:decodeURIComponent(com[i][3]))+'" width="60" height="60" /></div>'+com[i][1]+'<br />售价：'+com[i][4]+' 元</div>';
     }
     $('#ds1lb').html(s);
     $('#ds1lb').css("width",pw-360+'px');

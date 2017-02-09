@@ -17,7 +17,7 @@
                         <td width="100" align="right">所属分类</td>
                         <td>
                             {volist name="cats" id="c"}
-                            <input type="checkbox" name="cats[]" value="{$c.ID}">{$c.Nm}
+                            <input type="checkbox" name="cats[]" value="{$c.ID}" {if condition="in_array($c['ID'],array_filter(explode(',',$data['cats'])))"}checked{/if}>{$c.Nm}
                             {/volist}
                         </td>
                     </tr>
@@ -32,7 +32,7 @@
                     <tr>
                         <td width="100" align="right">套餐排序</td>
                         <td>
-                            <input type="text" name="No" value="{$data.No}" size="10" class="inpMain"/>
+                            <input type="text" name="listorder" value="{$data.listorder|default=99}" size="10" class="inpMain"/>
                         </td>
                     </tr>
                     <tr>
@@ -42,13 +42,13 @@
                     <tr>
                         <td width="100" align="right">套餐售价</td>
                         <td>
-                            <input type="text" name="Ns" value="{$data['Ns']/100}" size="10" class="inpMain"/>
+                            <input type="text" name="price" value="{$data['price']}" size="10" class="inpMain"/>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>
-                            {if condition="$data['id']"}<input type="hidden" name="ID" value="{$data.id}"/>{/if}
+                            {if condition="$data['id']"}<input type="hidden" name="id" value="{$data.id}"/>{/if}
                             <span class="btn">提 交</span>
                         </td>
                     </tr>
@@ -61,7 +61,7 @@
     <div class="clear"></div>
 </div>
 <script type="text/javascript">
-    var art_pro_url = "{:url('dish/add')}";//form表单要提交的地址
+    var art_pro_url = "{:url('combo/add')}";//form表单要提交的地址
 </script>
 </body>
 </html>

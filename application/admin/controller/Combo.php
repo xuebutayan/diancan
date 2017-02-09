@@ -38,27 +38,30 @@ class Combo extends Common{
             }else{
                 $params['pic'] = '';
             }
-            if (isset($params['Nt'])) {
-                $params['Nt'] = implode(',',$params['Nt']);
+            if (isset($params['cats'])) {
+                $params['cats'] = implode(',',$params['cats']);
             }else{
-                $params['Nt'] = $cid;
+                $params['cats'] = $cid;
             }
-            $params['Nm'] = $params['Nm']?$params['Nm']:'未命名';
-            $params['No'] = $params['No']?$params['No']:99;
+            if (isset($params['dishes'])) {
+                $params['dishes'] = implode(',',$params['dishes']);
+            }else{
+                $params['dishes'] = '';
+            }
+            $params['name'] = $params['name']?$params['name']:'未命名';
+            $params['order'] = $params['order']?$params['order']:99;
             $data = [
-                'Nm' => $params['Nm'],
-                'Nt' =>  ','.$params['Nt'].',',
-                'No' => $params['No'],
-                'Ni' => $params['Ni'],
+                'name' => $params['name'],
+                'cats' =>  ','.$params['cats'].',',
+                'listorder' => $params['listorder'],
                 'pic' => $params['pic'],
-                'Ns' =>$params['Ns']*100,
-                'Nh' => $params['Nh'],
-                'Np'=>0,
-                'DD'=>0
+                'price' =>$params['price'],
+                'dishes'=>$params['dishes']
             ];
 
-            if (isset($params['ID'])) {
-                $flag = Db::table('SCD')->where('id',$params['ID'])->update($data);
+            if (isset($params['id'])) {
+                //dump($data);exit;
+                $flag = Db::name('combo')->where('id',$params['id'])->update($data);
                 if ($flag) {
                     exit(json_encode(['status' => 1, 'msg' => '修改成功', 'url' => url('menu/index')]));
                 } else {
@@ -66,7 +69,7 @@ class Combo extends Common{
                 }
             }else{
                 //新增
-                $flag=Db::table('SCD')->insert($data);
+                $flag=Db::name('combo')->insert($data);
                 if ($flag) {
                     exit(json_encode(['status' => 1, 'msg' => '添加成功', 'url' => url('menu/index')]));
                 } else {
@@ -82,7 +85,7 @@ class Combo extends Common{
         return $this->fetch('edit');
     }
     function edit($id){
-        $data = Db::table('SCD')->where(['id'=>$id])->find($id);
+        $data = Db::name('combo')->where(['id'=>$id])->find($id);
         $this->assign('data',$data);
         $this->assign('item',$data);
         return $this->fetch();
