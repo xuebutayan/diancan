@@ -19,6 +19,8 @@ class Index extends Controller
         //查询是否存在此桌
         $re = Db::table('SCT')->where('ID',$table_id)->find();
         if(!$re) return json(['status'=>0,'info'=>'不存在此桌']);
+        //查询此桌是否是顾客已下单状态
+        if($re['Ni']==3) return json(['status'=>0,'info'=>'此桌已下单，请勿重复下单']);
         $time   = time();
         $f_time = date('Y-m-d H:i:s', $time);
         if (!is_array($items)) {
@@ -37,7 +39,7 @@ class Index extends Controller
         $all_dishes = [];
         foreach ($dishes as $v) {
            $all_dishes[$v['ID']] = $v;
-        }
+        }//print_r($items);exit;
         foreach ($items as $v) {
             $cnum = intval($v['cnum']);
             if($cnum <= 0) continue;
@@ -59,12 +61,13 @@ class Index extends Controller
                     $total_price += $info['price'] * intval($cnum);
                     //读取套餐中的菜品
                     $t_dishes = '';
+                    $str_dishes = $v['dishes'];
                     $v['dishes'] = explode(',',$v['dishes']);
-                    foreach ($v['dishes'] as $v) {
-                        $t_dishes .= ','.$all_dishes[$v]['Nm'];
+                    foreach ($v['dishes'] as $o) {
+                        $t_dishes .= ','.$all_dishes[$o]['Nm'];
                     }
                     //插入订单详细表
-                    Db::table('OCK')->insert(['Oi' => $oid, 'Ti' => $table_id, 'Ci' => $v['cid'], 'Cn' => $info['name'], 'Cp' => $info['price'], 'Cs' => $cnum, 'St' => 3, 'Dt' => $f_time,'combo'=>1]);
+                    Db::table('OCK')->insert(['Oi' => $oid, 'Ti' => $table_id, 'Ci' => $v['cid'], 'Cn' => $info['name'], 'Cp' => $info['price'], 'dishes'=>$str_dishes,'Cs' => $cnum, 'St' => 3, 'Dt' => $f_time,'combo'=>1]);
                     //订单历史记录
                     $h_detail .= $table_id.'|'.$info['name'].';'.trim($t_dishes,',').'|'.$info['price'].'|'.$cnum.'$';
                 } else {
@@ -74,7 +77,7 @@ class Index extends Controller
         }
 
         //更新订单表
-        Db::table('ODR')->where('id',$oid)->update(['Pz'=>$total_price]);
+        Db::table('ODR')->where('ID',$oid)->update(['Pz'=>$total_price]);
         //更新桌号表
         Db::table('SCT')->where('ID',$table_id)->update(['Ni'=>3,'Oi'=>$oid]);
         //保存积分，1元=1积分
@@ -84,9 +87,9 @@ class Index extends Controller
         else Db::name('member')->where('open_id',$open_id)->update(['integrals'=>['exp','integrals+'.$total_price]]);
 
         //插入订单历史记录
-        $re = Db::name('ohistory')->insert(['open_id'=>$open_id,'detail'=>$h_detail,'posttime'=>$time,'total_price'=>$total_price]);
-        if(!$re) return json($db_error);
-
+        $ohid = Db::name('ohistory')->insertGetId(['open_id'=>$open_id,'detail'=>$h_detail,'posttime'=>$time,'total_price'=>$total_price,'status'=>3]);
+        if(!$ohid) return json($db_error);
+        Db::table('ODR')->where('ID',$oid)->update(['ohid'=>$ohid]);
         return json(['status'=>1,'info'=>'提交成功']);
     }
     //获取订单历史
@@ -120,9 +123,9 @@ class Index extends Controller
     function test_get_order(){
     	$url = 'http://dc.zhongda.com/api.php/Index/getOrder';
     	$items = [
-    		['cid'=>10,'cnum'=>2],['cid'=>12,'cnum'=>2]
+    		['cid'=>10,'cnum'=>2,'combo'=>0],['cid'=>1,'cnum'=>1,'dishes'=>'1,8','combo'=>1]
     	];
-    	$re = curl_post($url,['table_id'=>3,'open_id'=>'test1','items'=>$items]);
+    	$re = curl_post($url,['table_id'=>4,'open_id'=>'test1','items'=>$items]);
     	echo $re;
     }
     function test(){
