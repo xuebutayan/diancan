@@ -13,13 +13,13 @@
                         <h3><span class="seating">顾客下单</span></h3>
                         {if condition="$hall_seating"}
                             {volist name="hall_seating" id="item"}
-                                <div class="table-item actionBtn" data-url="{:url('hall/order', ['id'=>$item.ID])}">
+                                <div class="table-item actionBtn" data-url="{:url('hall/order', ['id'=>$item.ID])}" data-id="{$item.ID}">
                                     {$item.Nm}[{$item.Ns}人座]
                                     <div style="text-align:center;">顾客下单</div>
                                 </div>
                             {/volist}
                         {else /}
-                            <div class="table-item">
+                            <div class="table-item none">
                                 <p>无</p>
                             </div>
                         {/if}
@@ -64,7 +64,16 @@
     <div class="clear"></div>
 </div>
 <script type="text/javascript">
+    var interval;
+    $(function() {
+        poll();
+        interval = setInterval(function() {
+            poll();
+        }, 10000);
+    });
+
     $('.actionBtn').click(function(){
+        clearInterval(interval);
         var url = $(this).data('url');
         layer.open({
             title: '餐桌订餐信息',
@@ -72,16 +81,18 @@
             area: ['840px', '520px'],
             fixed: false, //不固定
             maxmin: true,
-            content: url
+            content: url,
+            cancel: function(index) {
+                location.reload();
+            }
         });
     });
-    $(function() {
-        var interval = setInterval(poll, 10000);
-    });
+
 
     function poll() {
         $.get("{:url('hall/poll')}",function(data){
             if (data.status) {
+                // setTableSeating($('.table_status-seating'), data.info);
                 $('#embed').html('<embed src="__PUBLIC__/images/dingdong.wav" autostart="false" loop="false" hidden="true" id="embed">');
                 layer.closeAll('iframe');
                 layer.open({
@@ -92,10 +103,33 @@
                     offset: 'rb', //右下角弹出
                     anim: 2,
                     content: data.url,
+                    cancel: function(index) {
+                        location.reload();
+                    }
                 });
             }
             // 更新时间
             $('#update-time').text(data.time);
         }, "JSON");
+    }
+
+    function setTableSeating(element, table) {
+        var html, url, temp = 0, index = 0;
+        for (var i = 0; i < table.length; i++) {
+            url = "{:url('hall/order', ['id'=>'replace'])}";
+            url = url.replace('replace', table[i]['ID']);
+            html = '<div class="table-item actionBtn" data-url="'+ url +'" data-id="'+ table[i]['ID'] +'">'+
+                        table[i]['Nm'] +'[' + table[i]['Ns'] + '人座]'+
+                    '<div style="text-align:center;">顾客下单</div>'+
+                    '</div>';
+            element.children('.table-item').each(function() {
+                if ($(this).data('id') == table[i]['ID']) {
+                    temp++;
+                }
+            });
+            if (!temp) {
+                element.append(html);
+            }
+        }
     }
 </script>

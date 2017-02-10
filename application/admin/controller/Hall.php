@@ -12,7 +12,7 @@ use think\Db;
 
 class Hall extends Common
 {
-
+    // 餐桌状态
     private $dinner_table_status = array(
         'UNMANNED' => 0,
         'SEATING' => 3,
@@ -61,6 +61,10 @@ class Hall extends Common
         return $this->fetch();
     }
 
+    /**
+     * 显示退菜页面
+     * @return mixed
+     */
     public function foodback() {
         $id = input('id');
 
@@ -77,6 +81,10 @@ class Hall extends Common
         return $this->fetch();
     }
 
+    /**
+     * 退菜/拒退 操作接口
+     *
+     */
     public function disheseidt() {
         $id = input('param.id/d',0);
         $bz = input('param.bz');
@@ -94,6 +102,10 @@ class Hall extends Common
         }
     }
 
+    /**
+     * 结账操作
+     * @return mixed
+     */
     public function settle() {
         $oid = input('oid');
         $Ti = input('Ti');
@@ -106,6 +118,11 @@ class Hall extends Common
             Db::table('OCK') -> where(['Oi' => $oid, 'Ti' => $Ti]) -> update(['St' => $this->dinner_table_status['PAYING']]);
             Db::table('SCT') -> where('ID', $Ti) -> update(['Ni' => $this->dinner_table_status['PAYING']]);
 
+            $ohid = Db::table('ODR') -> where('ID', $oid) -> value('ohid');
+            if ($ohid) {
+                Db::name('ohistory') -> where('id', $ohid) -> update(['status' => $this->dinner_table_status['paying']]);
+            }
+
             exit(json_encode(['status' => 1, 'msg' => '结账成功！', 'url' => '']));
         } else {
             exit(json_encode(['status' => 0, 'msg' => '订单状态错误，无法结账！', 'url' => '']));
@@ -114,6 +131,9 @@ class Hall extends Common
         return $this->fetch();
     }
 
+    /**
+     * 清台操作
+     */
     public function clearDt() {
         $Ti = input('Ti');
         $oid = input('oid');
@@ -131,18 +151,26 @@ class Hall extends Common
 
     }
 
+    /**
+     * 大厅页面轮询
+     *
+     */
     public function poll() {
 
         // 新订单定义： 状态：顾客下单 St = 0;
-        $info = Db::table('SCT') -> field('Nm, Ni, St') -> where(['St' => 0, 'Ni' => $this->dinner_table_status['SEATING']]) -> select();
+        $info = Db::table('SCT') -> field('ID, Nm, Ns, Ni, St') -> where(['St' => 0, 'Ni' => $this->dinner_table_status['SEATING']]) -> select();
         if (!empty($info)) {
-            exit(json_encode(['status' => 1, 'msg' => '有新的订单等待查看！', 'url' => url('hall/tableinfo'), 'time' => date('H:i:s', time())]));
+            exit(json_encode(['status' => 1, 'msg' => '有新的订单等待查看！', 'info' => $info, 'url' => url('hall/tableinfo'), 'time' => date('H:i:s', time())]));
         } else {
             exit(json_encode(['status' => 0, 'msg' => '无新的订单！', 'url' => '', 'time' => date('H:i:s', time())]));
         }
 
     }
 
+    /**
+     * 显示新订单提醒页面
+     * @return mixed
+     */
     public function tableinfo() {
         $info = Db::table('SCT') -> field('ID, Nm, Ni, St') -> where(['St' => 0, 'Ni' => $this->dinner_table_status['SEATING']]) -> select();
 
@@ -150,6 +178,9 @@ class Hall extends Common
         return $this->fetch();
     }
 
+    /**
+     * 新订单查看状态更新
+     */
     public function updatestatus() {
         $flag = Db::table('SCT') -> where(['St' => 0, 'Ni' => $this->dinner_table_status['SEATING']]) -> update(['St' => 1]);
         if ($flag) {
@@ -216,15 +247,25 @@ class Hall extends Common
      * @return array 订单菜品列表
      */
     protected function getDishesList($oid, $id) {
-        $dishes = Db::table('OCK') -> field('ID,Oi,Ti,Ci,Cn,Cp,Cs,St,I1,I2,I3,Dt,Td,Bz')
+        $dishes = Db::table('OCK') -> field('ID,Oi,Ti,Ci,Cn,Cp,Cs,St,I1,I2,I3,Dt,Td,Bz,combo,dishes')
                                    -> where('Oi', $oid) -> where('Ti', $id) -> order('Td ASC') -> select();
         foreach ($dishes as $k => $v) {
             $dishes[$k]['Cp'] = $v['Cp'] / 100;
             $dishes[$k]['St'] = Config('table_status.'.$v['St']);
+            // 获取套餐菜品列表
+            if ($v['combo'] == 1) {
+                $dishes[$k]['dishes'] = $this->getSetMeal($v['dishes']);
+            }
+
         }
         return $dishes;
     }
 
+    /**
+     * 获得订单总金额
+     * @param $oid 订单ID
+     * @return int 总金额
+     */
     protected function getOrderAmount($oid) {
         $dishes = Db::table('OCK') -> field('Cp,Cs')
             -> where('Oi', $oid) -> where('Td', 0) -> select();
@@ -236,12 +277,31 @@ class Hall extends Common
         return $amount;
     }
 
+    /**
+     * 获得订单状态
+     * @param $id 订单ID
+     * @return mixed 订单状态
+     */
     protected function getOrderStatus($id) {
         return Db::table('ODR') -> where('ID', $id) -> value('St');
     }
 
+    /**
+     * 检验餐桌查看状态
+     * @param $id 餐桌ID
+     * @return mixed 餐桌是否已查看
+     */
     protected function checkDtStatus($id) {
         return Db::table('SCT') -> where('ID', $id) -> value('St');
+    }
+
+    protected function getSetMeal($dishes) {
+        // 获得菜品列表
+        $list = Db::table('SCD') -> field('Nm, Ns') -> where('ID', 'in', $dishes) -> order('No ASC') -> select();
+        foreach ($list as $k => $v) {
+            $list[$k]['Ns'] = $v['Ns'] / 100;
+        }
+        return $list;
     }
 
 }
