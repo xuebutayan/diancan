@@ -120,7 +120,7 @@ class Hall extends Common
 
             $ohid = Db::table('ODR') -> where('ID', $oid) -> value('ohid');
             if ($ohid) {
-                Db::name('ohistory') -> where('id', $ohid) -> update(['status' => $this->dinner_table_status['paying']]);
+                Db::name('ohistory') -> where('id', $ohid) -> update(['status' => $this->dinner_table_status['PAYING']]);
             }
 
             exit(json_encode(['status' => 1, 'msg' => '结账成功！', 'url' => '']));
