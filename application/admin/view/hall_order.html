@@ -29,6 +29,20 @@
                             {eq name="$di.Td" value="2"}<i class="foodback-icon">已退</i>{/eq}
                         </td>
                     </tr>
+                    {if condition="$di.combo eq 1"}
+                        {volist name="$di.dishes" id="vo"}
+                            <tr style="background-color: #F5F5F5;">
+                                <td>{$vo.Nm}</td>
+                                <td>{$vo.Ns}</td>
+                                <td>1</td>
+                                <td>{$di.St}</td>
+                                <td>{$di.I1}</td>
+                                <td>{$di.I2}</td>
+                                <td>{$di.I3}</td>
+                                <td>{$di.Cn}</td>
+                            </tr>
+                        {/volist}
+                    {/if}
                     {/volist}
                     <tr>
                         <td colspan="8">
