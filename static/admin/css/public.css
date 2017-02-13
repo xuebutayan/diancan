@@ -1171,6 +1171,112 @@ select {
  padding: 0px 50px;
 }
 
+/* 统计页面
+----------------------------------------------- */
+.statistical-items {
+ position: relative;
+ padding: 15px;
+}
+.statistical-items form {
+ float: left;
+}
+.statistical-items ul {
+ display: block;
+ float: left;
+ margin-left: 35px;
+}
+.statistical-items ul li {
+ float: left;
+ margin-right: 10px;
+}
+.statistical-items input {
+ text-align: center;
+}
+#interval {
+ display: none;
+}
+.statistical .s-left {
+ float: left;
+ width: 70%;
+}
+.statistical .s-right {
+ float: right;
+ width: 30%;
+}
+.statistical .col {
+ width: 21%;
+ float: left;
+ padding-left: 2%;
+ padding-right: 2%;
+}
+.statistical .col-long {
+ width: 50%;
+}
+.text-center {
+ text-align: center;
+}
+.card-panel {
+ transition: box-shadow .25s;
+ /*padding: 10px;*/
+ margin: 0.5rem 0 1rem 0;
+ border-radius: 2px;
+ background-color: #fff;
+ box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);
+ cursor: pointer;
+}
+.card-panel h4 {
+ padding-top: 5px;
+ font-size: 16px;
+ margin-top: 10px;
+ margin-bottom: 10px;
+ color: #FFFFFF;
+ padding: 20px;
+ background-color: #1ebfae;
+}
+.h4-red {
+ background-color: #F44336 !important;
+}
+.h4-orange {
+ background-color: #ff9800 !important;
+}
+.h4-blue {
+ background-color: #2196F3 !important;
+}
+.h4-default {
+ background-color: #30cc7b !important;
+}
+.card-panel .card-content {
+ padding-top: 15px;
+ padding-bottom: 15px;
+ padding-left: 10px;
+ padding-right: 10px;
+}
+.card-content span {
+ font-size: 24px;
+}
+.card-content ul {
+ margin-top: 20px;
+}
+.card-content ul li {
+ width: 50%;
+ text-align: right;
+ float: right;
+ padding-right: 10px;
+}
+.card-content table tr td {
+ width:50%;
+ font-size: 12px;
+ text-align: center;
+}
+.col-long .card-content table {
+ /*height: 370px;*/
+}
+.charts {
+ float: left;
+ width: 48%;
+ height: 290px;
+ font-size: 12px;
+}
 /* 模块扩展
 ----------------------------------------------- */
 #module .install {
