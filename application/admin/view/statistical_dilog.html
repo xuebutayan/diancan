@@ -1,0 +1,59 @@
+{include file="public/header" /}
+<div id="dcWrap">
+    <div id="dcMain">
+        <!-- 当前位置 -->
+        <div id="urHere">管理中心<b>></b><strong>统计图</strong></div>
+        <div id="manager" class="mainBox" style="height:auto!important;">
+            <div id="chartdiv" style="height:356px;"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    {include file="public/footer" /}
+    <div class="clear"></div>
+</div>
+<script src="__PUBLIC__/js/amcharts/amcharts.js" type="text/javascript"></script>
+<script src="__PUBLIC__/js/amcharts/serial.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var chardata = {$jsonDished};
+    var chart = AmCharts.makeChart("chartdiv",
+            {
+                "type": "serial",
+                "theme": "light",
+                "dataProvider": chardata,
+                "valueAxes": [{
+                    "minimum": 0,
+                    "axisAlpha": 0,
+                    "dashLength": 4,
+                    "position": "left"
+                }],
+                "startDuration": 1,
+                "graphs": [{
+                    "balloonText": "<span style='font-size:13px;'>[[category]]: <b>[[value]]</b></span>",
+                    "bulletOffset": 10,
+                    "bulletSize": 52,
+                    "colorField": "color",
+                    "cornerRadiusTop": 8,
+                    "fillAlphas": 0.8,
+                    "lineAlpha": 0,
+                    "type": "column",
+                    "valueField": "num"
+                }],
+                "marginTop": 0,
+                "marginRight": 0,
+                "marginLeft": 0,
+                "marginBottom": 0,
+                "autoMargins": false,
+                "categoryField": "Cn",
+                "categoryAxis": {
+                    "axisAlpha": 0,
+                    "gridAlpha": 0,
+                    "inside": true,
+                    "tickLength": 0
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+</script>
+</body>
+</html>

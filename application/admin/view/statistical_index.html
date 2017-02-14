@@ -36,7 +36,7 @@
                             <div class="card-content">
                                 <span class="percent">{$stat['revenue']}</span>
                                 <ul class="clearfix">
-                                    <li ><a href="">查看图表</a></li>
+                                    <li ><a href=""></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                             <div class="card-content">
                                 <span class="percent">{$stat['oNum']}</span>
                                 <ul class="clearfix">
-                                    <li ><a href="">查看图表</a></li>
+                                    <li ><a href=""></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -58,7 +58,9 @@
                             <div class="card-content">
                                 <span class="percent">{$stat['dNum']}</span>
                                 <ul class="clearfix">
-                                    <li ><a href="">查看图表</a></li>
+                                    <li ><a href="javascrtip:;"
+                                            {neq name="$stat['dNum']" value="0" }class="actionBtn" data-url="{:url('statistical/dilog', ['type'=>'0', 'start' => $date['start'], 'end'=>$date['end']])}"{/neq}
+                                    >查看图表</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -69,12 +71,13 @@
                             <div class="card-content">
                                 <span class="percent">{$stat['tdNum']}</span>
                                 <ul class="clearfix">
-                                    <li ><a href="">查看图表</a></li>
+                                    <li ><a href="javascrtip:;"
+                                           {neq name="$stat['tdNum']" value="0" }class="actionBtn" data-url="{:url('statistical/dilog', ['type'=>'2', 'start' => $date['start'], 'end'=>$date['end']])}"{/neq}
+                                    >查看图表</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div id="chart" class="charts"></div>
                     <div id="chartdiv" class="charts"></div>
                 </div>
                 <div class="s-right">
@@ -92,7 +95,9 @@
                                     {/volist}
                                 </table>
                                 <ul class="clearfix">
-                                    <li ><a href="">查看图表</a></li>
+                                    <li ><a href="javascrtip:;"
+                                            class="actionBtn" data-url="{:url('statistical/dilog', ['type'=>'0', 'start' => $date['start'], 'end'=>$date['end']])}"
+                                    >查看图表</a></li>
                                 </ul>
                                 {else/}
                                     <p style="height: 370px">暂无</p>
@@ -115,135 +120,112 @@
         format:"Y-m-d",      //格式化日期
         timepicker:false,    //关闭时间选项
     });
+    $('.actionBtn').click(function(){
+        var url = $(this).data('url');
+        layer.open({
+            title: '统计图表',
+            type: 2,
+            area: ['840px', '520px'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: url
+        });
+    });
 </script>
 <script src="__PUBLIC__/js/amcharts/amcharts.js" type="text/javascript"></script>
 <script src="__PUBLIC__/js/amcharts/serial.js" type="text/javascript"></script>
 <script type="text/javascript">
     // 营业额折线图
-    // generate data
-    var chartData = {$jsonRevenue};
-
-    var chart = AmCharts.makeChart("chart", {
-        "type": "serial",
-        "theme": "light",
-        "titles":[{"text":"营业额"}],
-        "autoMarginOffset": 20,
-        "dataProvider": chartData,
-        "valueAxes": [{
-            "axisAlpha": 0
-        }],
-        "balloon": {
-            "cornerRadius": 6
-        },
-        "synchronizeGrid":true,
-        "graphs": [{
-            "balloonText": "[[title]]: [[category]] [[value]] 元",
-            "lineThickness": 2,
-            "title": "营业额",
-            "valueField": "revenue"
-        }],
-        "chartCursor": {
-            "cursorPosition": "mouse",
-            "showNextAvailable": true
-        },
-        "chartCursor": {
-            "cursorPosition": "mouse"
-        },
-        "chartScrollbar": {},
-        "categoryField": "date",
-        "categoryAxis": {
-            "minPeriod": "YYYY",
-            "parseDates": false,
-            "axisColor": "#DADADA",
-            "minorGridEnabled": true
-        },
-        "export": {
-            "enabled": true
-        }
-    });
-    // 柱状图
+    var chardata = {$jsonOrder};
     var chart = AmCharts.makeChart("chartdiv", {
         "type": "serial",
         "theme": "light",
-        "categoryField": "day",
-        "startDuration": 1,
-        "categoryAxis": {
-            "gridPosition": "start",
-            "axisAlpha": 0.3,
-            "gridAlpha": 0,
-            "position": "left"
-        },
         "legend": {
-            "horizontalGap": 10,
-            "maxColumns": 1,
-            "position": "right",
+            "equalWidths": false,
             "useGraphSettings": true,
-            "markerSize": 10
+            "valueAlign": "left",
+            "valueWidth": 120
         },
-        "trendLines": [],
-        "graphs": [
-            {
-                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]] 个</b></span>",
-                "fillColors": "#2196F3",
-                "fillAlphas": 0.8,
-                "labelText": "[[value]]",
-                "lineAlpha": 0.3,
-                "title": "点单数",
-                "type": "column",
-                "color": "#000000",
-                "valueField": "oNum"
-            },
-            {
-                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]] 个</b></span>",
-                "fillColors": "#ff9800",
-                "fillAlphas": 0.8,
-                "labelText": "[[value]]",
-                "lineAlpha": 0.3,
-                "title": "点菜数",
-                "type": "column",
-                "color": "#000000",
-                "valueField": "dNum"
-            },
-            {
-                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]] 个</b></span>",
-                "fillColors": "#F44336",
-                "fillAlphas": 0.8,
-                "labelText": "[[value]]",
-                "lineAlpha": 0.3,
-                "title": "退菜数",
-                "type": "column",
-                "color": "#000000",
-                "valueField": "tdNum"
-            }
-        ],
-        "guides": [],
-        "valueAxes": [
-            {
-                "position": "left",
-                "axisAlpha": 0.3,
-                "gridAlpha": 0,
-            }
-        ],
-        "allLabels": [],
-        "balloon": {},
-        "titles": [{"text":"订单"}],
-        "dataProvider": [
-            {
-                "day": '2017-02-09',
-                "oNum": 0,
-                "dNum": 2,
-                "tdNum": 0
-            },
-            {
-                "day": '2017-02-10',
-                "oNum": 11,
-                "dNum": 21,
-                "tdNum": 0
-            }
-        ],
+        "autoMarginOffset": 20,
+        "mouseWheelZoomEnabled":true,
+        "dataProvider": chardata,
+        "valueAxes": [{
+            "id": "distanceAxis",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "position": "left",
+            "title": "营业额"
+        }, {
+            "id": "latitudeAxis",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "labelsEnabled": false,
+            "position": "right"
+        }, {
+            "id": "durationAxis",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "inside": true,
+            "position": "right",
+            "title": "数量"
+        }],
+        "dataDateFormat": "YYYY-MM-DD",
+        "graphs": [{
+            "alphaField": "alpha",
+            "balloonText": "营业额：[[value]] 元",
+            "dashLengthField": "dashLength",
+            "fillAlphas": 0.7,
+            "legendPeriodValueText": "[[value.sum]] 元",
+            "legendValueText": "[[value]] 元",
+            "title": "营业额",
+            "type": "column",
+            "valueField": "revenue",
+            "valueAxis": "distanceAxis"
+        }, {
+            "balloonText": "点单数: [[value]]",
+            "bullet": "round",
+            "bulletBorderAlpha": 1,
+            "useLineColorForBulletBorder": true,
+            "bulletColor": "#FFFFFF",
+            "bulletSizeField": "townSize",
+            "dashLengthField": "dashLength",
+            "descriptionField": "townName",
+            "labelPosition": "right",
+            "labelText": "[[townName2]]",
+            "legendValueText": "[[value]]",
+            "title": "点单数",
+            "fillAlphas": 0,
+            "valueField": "oNum",
+            "valueAxis": "latitudeAxis"
+        }, {
+            "bullet": "square",
+            "balloonText": "点菜数: [[value]]",
+            "bulletBorderAlpha": 1,
+            "bulletBorderThickness": 1,
+            "dashLengthField": "dashLength",
+            "legendValueText": "[[value]]",
+            "title": "点菜数",
+            "fillAlphas": 0,
+            "valueField": "dNum",
+            "valueAxis": "durationAxis"
+        }],
+        "chartCursor": {
+            "cursorAlpha": 0.1,
+            "cursorColor":"#000000",
+            "fullWidth":true,
+            "valueBalloonsEnabled": false,
+            "zoomable": false
+        },
+        "categoryField": "date",
+        "categoryAxis": {
+            "parseDates": true,
+            "axisColor": "#555555",
+            "gridAlpha": 0.1,
+            "gridColor": "#FFFFFF",
+            "gridCount": 50
+        },
         "export": {
             "enabled": true
         }
-
     });
 </script>
