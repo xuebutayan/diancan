@@ -1101,27 +1101,28 @@ select {
  float: left;
 }
 .table_status-seating .table-item {
- background-color: #00FF00;
+ background-color: #2196F3;
  color: #FFF;
- /*border-color: #00FF00;*/
+ border-color: #2196F3;
 }
 .table_status-unmanned .table-item {
- background-color: #60BBFF;
- /*border-color: #60BBFF;*/
+ background-color: #30cc7b;
+ color: #FFF;
+ border-color: #30cc7b;
 }
 .table_status-paying .table-item {
- background-color: #4e3500;
+ background-color: #ff9800 ;
  color: #FFF;
- /*border-color: #4e3500;*/
+ border-color: #ff9800;
 }
 .unmanned {
- background-color: #60BBFF;
+ background-color: #30cc7b;
 }
 .seating {
- background-color: #00FF00;
+ background-color: #2196F3;
 }
 .paying {
- background-color: #4e3500;
+ background-color: #ff9800 ;
 }
 .tableinfo ul {
  padding: 15px;
@@ -1135,11 +1136,12 @@ select {
 /* 餐桌样式
 ----------------------------------------------- */
 .table-item {
+ font-size: 16px;
  width:15%;
  float: left;
  height: 68px;
  text-align: center;
- padding: 5px 10px;
+ padding: 25px 0px;
  background-color: #F3F9FF;
  line-height: 32px;
  border: 1px solid #09F;
