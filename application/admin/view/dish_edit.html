@@ -75,7 +75,7 @@
                         <td></td>
                         <td>
                             {if condition="$data['ID']"}<input type="hidden" name="ID" value="{$data.ID}"/>{/if}
-                            <span class="btn">提 交</span>
+                            <span class="btn">提 交</span> <a class="del btn btn-danger" data-id="{$data.ID}">删 除</a>
                         </td>
                     </tr>
                 </table>
@@ -88,6 +88,15 @@
 </div>
 <script type="text/javascript">
     var art_pro_url = "{:url('dish/add')}";//form表单要提交的地址
+    //删除单个
+    $(".del").click(function(){
+        var id= $(this).data('id');
+        confirms('警告','是否确认删除此菜品','',function(){
+            $.get("{:url('dish/delete')}",{id:id},function(data){
+                alertw(data);
+            });
+        });
+    })
 </script>
 </body>
 </html>

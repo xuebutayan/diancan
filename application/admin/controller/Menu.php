@@ -97,4 +97,18 @@ class Menu extends Common{
     	$this->assign('data',$data);
     	return $this->fetch();
     }
+    function delete(){
+        $id = input('get.id');
+        //套餐
+        $cat1 = Db::name('combo')->column("cats");
+        //菜品
+        $cat2 = Db::table('SCD')->column('Nt');
+        $arr1 = array_filter(explode(',',implode(',', $cat1)));
+        $arr2 = array_filter(explode(',',implode(',', $cat2)));
+        $cats = array_unique(array_merge($arr1,$arr2));//dump($cats);exit;
+        if(in_array($id,$cats)) exit('该分类下还有菜品，不能删除！');
+        $re = Db::table('SCL')->delete($id);
+        if($re) exit('删除成功！');
+        else exit('删除失败！');
+    }
 }

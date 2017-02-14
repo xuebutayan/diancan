@@ -86,4 +86,13 @@ class Dish extends Common{
         $this->assign('item',$data);
         return $this->fetch();
     }
+    function delete(){//unlink(ROOT_PATH.'/uploads/20170214/test.png');exit;
+        $id = input('get.id');
+        $info = Db::table('SCD')->find($id);
+        $re = Db::table('SCD')->delete($id);
+        if($re){
+            if($info['pic']) @unlink(ROOT_PATH.$info['pic']);
+            echo '删除成功！';
+        }else echo '删除失败！';
+    }
 }

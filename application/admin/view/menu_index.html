@@ -12,7 +12,7 @@
 <div class="menu-box">
 <div id="ds1la" style="float:left;width:150px;">
 {volist name="cat" id="c"}
-  <div id="ds1l{$i}" class="ds1la{if condition="$i==1"}2{else /}1{/if}" onclick="cplb({$c.ID},this);"><span class="ds1la3" data-url="{:url('menu/edit',['id'=>$c.ID])}" onclick="flbj(this);">E</span> &nbsp;&nbsp;&nbsp;{$c.Nm} {if condition="$c.Nh"} H {/if}</div>
+  <div id="ds1l{$i}" class="ds1la{if condition="$i==1"}2{else /}1{/if}" onclick="cplb({$c.ID},this);"><span class="ds1la3" data-url="{:url('menu/edit',['id'=>$c.ID])}" onclick="flbj(this);">编</span> <span class="del ds1la3" data-id="{$c.ID}">删</span> &nbsp;&nbsp;&nbsp;{$c.Nm} {if condition="$c.Nh"} H {/if}</div>
 {/volist}
 </div>
 <div id="ds1lb" style="float: left; width: 1560px;">
@@ -72,7 +72,7 @@ function cplb(id,obj){
   $(obj).siblings().attr('class','ds1la1');
   $(obj).attr('class','ds1la2');
   $.get('{:url('Menu/menus')}',{cid:id},function(a){
-console.log(a);
+//console.log(a);
     var t=a.dishes.split('$');
     scd=[];
     for(var i=0;i<t.length;i++) scd.push(t[i].split('|'));
@@ -92,6 +92,15 @@ console.log(a);
     $('#ds1lb').css("width",pw-360+'px');
   })
 }
+//删除单个
+$(".del").click(function(){
+  var id= $(this).data('id');
+  confirms('警告','是否确认删除id为【'+ id +'】的分类？','',function(){
+      $.get("{:url('menu/delete')}",{id:id},function(data){
+          alertw(data);
+      });
+  });
+})
 </script>
 </body>
 </html>

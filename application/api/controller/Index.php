@@ -108,7 +108,7 @@ class Index extends Controller
     			$data = ['name'=>$one[1],'price'=>($one[2]/100),'num'=>$one[3]];
     			$cai[] = $data;
     		}
-    		$new_list[] = ['id'=>$v['id'],'posttime'=>date('Y-m-d H:i:s',$v['posttime']),'total_price'=>$v['total_price'],'items'=>$cai];
+    		$new_list[] = ['id'=>$v['id'],'posttime'=>date('Y-m-d H:i:s',$v['posttime']),'total_price'=>$v['total_price'],'items'=>$cai,'status'=>$v['status']];
     	}
     	return json($new_list);
     }
