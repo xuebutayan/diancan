@@ -24,7 +24,7 @@ class Banner extends Common
         if (request()->isPost()) {
             //新增处理
             $params = input('post.');
-            
+
             $flag = Db::name('banner')->insert($params);
             if ($flag) {
                 exit(json_encode(['status' => 1, 'msg' => '添加成功', 'url' => url('banner/index')]));
@@ -59,13 +59,13 @@ class Banner extends Common
 
     /**
      * Banner 已添加图片列表
-     * @return 
+     * @return
      */
     public function banlist($id)
     {
         $cate = Db::name('banner')->field('title,type,id')->find($id);
         $list = Db::name('banner_detail')->where(['pid' => $id])->select();
-        
+
         $this->assign([
             'list' => $list,
             'cate' => $cate
@@ -87,12 +87,14 @@ class Banner extends Common
                 $params['img'] = '';
             }
             if (!isset($params['id'])) {
+                //判断类型是幻灯片还是广告
+                //...
                 $flag = Db::name('banner_detail')->insert($params);
                 if ($flag) {
                     exit(json_encode(['status' => 1, 'msg' => '添加成功', 'url' => url('banner/banlist')]));
                 }else{
                     exit(json_encode(['status' => 0, 'msg' => '添加失败', 'url' => '']));
-                } 
+                }
             }else{
                 $flag = Db::name('banner_detail')->where(['id' => $params['id']])->update($params);
                 if ($flag) {
@@ -101,7 +103,7 @@ class Banner extends Common
                     exit(json_encode(['status' => 0, 'msg' => '修改失败', 'url' => '']));
                 }
             }
-            
+
         }else{
             $this->assign('pid',$id);
             return $this->fetch();
