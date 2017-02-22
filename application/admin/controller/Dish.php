@@ -53,6 +53,7 @@ class Dish extends Common{
                 'Nh' => $params['Nh'],
                 'Np'=>0,
                 'DD'=>0,
+                'groups'=>$params['groups'],
                 'choice'=>$params['choice']
             ];
 
